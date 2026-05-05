@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACCO — 日本のクラフトビールと、出会う。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ヒーローセクション */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #1a1410;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(19,80,178,0.35) 0%, rgba(196,131,42,0.2) 100%),
+                  url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(26,20,16,0.75) 0%, rgba(26,20,16,0.2) 100%);
+    }
+    .hero-content {
+      position: relative;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 48px;
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+    @media (max-width: 768px) {
+      .hero-content { padding: 60px 20px; }
+      .hero { min-height: 80vh; }
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--color-accent);
+    }
+    .hero h1 {
+      font-family: var(--font-main);
+      font-size: clamp(36px, 6vw, 68px);
+      font-weight: 700;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      max-width: 640px;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 40px;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollLine 1.8s ease infinite;
+    }
+    @keyframes scrollLine {
+      0%   { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      100% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    }
+
+    /* おすすめ商品 */
+    .recommended-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .recommended-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .recommended-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    /* テイスト診断バナー */
+    .quiz-banner {
+      background: var(--color-primary);
+      border-radius: var(--radius-md);
+      padding: 56px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .quiz-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 28px;
+      }
+    }
+    .quiz-banner-text h2 {
+      color: white;
+      font-size: clamp(20px, 3vw, 26px);
+      margin-bottom: 8px;
+    }
+    .quiz-banner-text p {
+      color: rgba(255,255,255,0.75);
+      font-size: 14px;
+    }
+    .quiz-banner .btn {
+      background: white;
+      color: var(--color-primary);
+      border-color: white;
+      flex-shrink: 0;
+    }
+    .quiz-banner .btn:hover {
+      background: var(--color-accent-light);
+      border-color: var(--color-accent-light);
+    }
+
+    /* 特集セクション */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      min-height: 240px;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px;
+      text-decoration: none;
+    }
+    .feature-card-bg {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+    .feature-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,20,16,0.75) 0%, transparent 60%);
+    }
+    .feature-card-body {
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card-body .tag { margin-bottom: 8px; }
+    .feature-card-body h3 {
+      font-size: 20px;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .feature-card-body p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ブルワリーセクション */
+    .brewery-logos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 768px) {
+      .brewery-logos { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .brewery-logos { grid-template-columns: repeat(2, 1fr); }
+    }
+    .brewery-logo-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .brewery-logo-item:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .brewery-logo-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+    }
+    .brewery-logo-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .brewery-logo-loc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* バナー装飾ライン */
+    .accent-line {
+      width: 40px;
+      height: 2px;
+      background: var(--color-accent);
+      margin-bottom: 20px;
+    }
+    .section-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .section-link:hover { gap: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- 年齢確認モーダル -->
+<div class="modal-overlay" id="ageModal">
+  <div class="modal-box">
+    <div style="font-family: var(--font-display); font-size: 28px; font-weight: 900; color: var(--color-text); margin-bottom: 16px; letter-spacing: 0.05em;">HACCO</div>
+    <p style="font-size: 14px; color: var(--color-text-muted); margin-bottom: 8px;">HACCOはお酒を販売するウェブサイトです。</p>
+    <p style="font-size: 17px; font-weight: 600; color: var(--color-text); margin-bottom: 32px;">あなたは20歳以上ですか？</p>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <button class="btn btn-primary btn-block" onclick="closeAgeModal()">はい、20歳以上です</button>
+      <button class="btn btn-outline btn-block" onclick="showUnder20()">いいえ</button>
+    </div>
+    <p id="under20msg" style="display:none; margin-top: 16px; font-size: 13px; color: var(--color-text-muted);">申し訳ありません。20歳未満の方には酒類の販売ができません。</p>
+    <p style="margin-top: 20px; font-size: 11px; color: var(--color-text-muted);">
+      お酒は20歳になってから。飲酒運転は絶対にやめましょう。
+    </p>
+  </div>
+</div>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav" aria-label="メインナビゲーション">
+      <a href="products.html" class="active">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-icon-btn" aria-label="お気に入り">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+      <button class="header-icon-btn" aria-label="カート (2点)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="badge">2</span>
+      </button>
+      <a href="login.html" class="btn btn-secondary btn-sm">ログイン</a>
+    </div>
+    <button class="hamburger-btn" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ヒーローセクション -->
+<section class="hero" aria-label="メインビジュアル">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Craft Beer Selection</p>
+    <h1>日本のクラフトビールと、<br>出会う。</h1>
+    <p class="hero-sub">全国30のブルワリーから、あなたの一本を。<br>醸造家のこだわりが詰まった、本物の味わい。</p>
+    <div class="hero-actions">
+      <a href="products.html" class="btn btn-primary btn-lg">
+        ビールを探す
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="taste-quiz.html" class="btn btn-lg" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.4); backdrop-filter: blur(4px);">
+        テイスト診断
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- おすすめ商品 -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 40px;">
+      <div>
+        <span class="section-label">Recommended</span>
+        <h2>今月のおすすめ</h2>
+      </div>
+      <a href="products.html" class="section-link">
+        すべて見る
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="recommended-grid">
+      <!-- 商品カード 1 -->
+      <article class="product-card">
+        <a href="product-detail.html">
+          <img src="https://placehold.co/400x400/f4efe7/c4832a?text=IPA" alt="富士フルーティIPA" class="product-card__img">
+        </a>
+        <button class="product-card__fav" aria-label="お気に入りに追加">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        <div class="product-card__body">
+          <p class="product-card__brewery">富士山麓醸造所</p>
+          <h3 class="product-card__name"><a href="product-detail.html">富士フルーティIPA</a></h3>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">フルーティ</span>
+            <span class="tag tag-navy">IPA</span>
+          </div>
+          <p class="product-card__price">¥680 <small>税込</small></p>
+        </div>
+      </article>
+
+      <!-- 商品カード 2 -->
+      <article class="product-card">
+        <a href="product-detail.html">
+          <img src="https://placehold.co/400x400/e8eef9/1350b2?text=White+Ale" alt="北海道ホワイトエール" class="product-card__img">
+        </a>
+        <button class="product-card__fav" aria-label="お気に入りに追加">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        <div class="product-card__body">
+          <p class="product-card__brewery">北海道麦酒醸造</p>
+          <h3 class="product-card__name"><a href="product-detail.html">北海道ホワイトエール</a></h3>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">すっきり</span>
+            <span class="tag tag-neutral">ヴァイツェン</span>
+          </div>
+          <p class="product-card__price">¥750 <small>税込</small></p>
+        </div>
+      </article>
+
+      <!-- 商品カード 3 -->
+      <article class="product-card">
+        <a href="product-detail.html">
+          <img src="https://placehold.co/400x400/fdf4e8/c4832a?text=Yuzu+Beer" alt="京の薫り柚子ビール" class="product-card__img">
+        </a>
+        <button class="product-card__fav active" aria-label="お気に入りから削除">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        <div class="product-card__body">
+          <p class="product-card__brewery">京都クラフトブリュー</p>
+          <h3 class="product-card__name"><a href="product-detail.html">京の薫り柚子ビール</a></h3>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">フルーティ</span>
+            <span class="tag tag-neutral">ペールエール</span>
+          </div>
+          <p class="product-card__price">¥820 <small>税込</small></p>
+        </div>
+      </article>
+
+      <!-- 商品カード 4 -->
+      <article class="product-card">
+        <a href="product-detail.html">
+          <img src="https://placehold.co/400x400/2c2018/f9f5ef?text=Stout" alt="仙台夜の深みスタウト" class="product-card__img">
+        </a>
+        <button class="product-card__fav" aria-label="お気に入りに追加">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        <div class="product-card__body">
+          <p class="product-card__brewery">東北クラフト</p>
+          <h3 class="product-card__name"><a href="product-detail.html">仙台夜の深みスタウト</a></h3>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">濃厚</span>
+            <span class="tag tag-neutral">スタウト</span>
+          </div>
+          <p class="product-card__price">¥780 <small>税込</small></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- テイスト診断バナー -->
+<section style="padding: 0 0 80px;">
+  <div class="container">
+    <div class="quiz-banner">
+      <div class="quiz-banner-text">
+        <h2>好みのビールがわからない方へ</h2>
+        <p>4問の質問に答えるだけで、あなたにぴったりのスタイルが見つかります。</p>
+      </div>
+      <a href="taste-quiz.html" class="btn btn-lg">
+        テイスト診断をはじめる
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 特集セクション -->
+<section class="section" style="padding-top: 0; background: var(--color-surface-alt);">
+  <div style="height: 80px;"></div>
+  <div class="container">
+    <div class="section-heading">
+      <span class="section-label">Featured</span>
+      <h2>特集</h2>
+    </div>
+    <div class="feature-grid">
+      <a href="products.html" class="feature-card">
+        <img src="https://placehold.co/600x400/2c2018/c4832a?text=Gift" alt="ギフト特集" class="feature-card-bg">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-body">
+          <span class="tag tag-amber" style="margin-bottom: 8px; display: inline-block;">Gift</span>
+          <h3>ギフトに人気</h3>
+          <p>大切な人へ贈る、特別な一本。熨斗・ラッピング対応</p>
+        </div>
+      </a>
+      <a href="products.html" class="feature-card">
+        <img src="https://placehold.co/600x400/1350b2/ffffff?text=New+Arrivals" alt="新着ビール" class="feature-card-bg">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-body">
+          <span class="tag tag-navy" style="margin-bottom: 8px; display: inline-block;">New</span>
+          <h3>新着ビール</h3>
+          <p>2025年11月に届いたばかりの12種類</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div style="height: 80px;"></div>
+</section>
+
+<!-- ブルワリーセクション -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 40px;">
+      <div>
+        <span class="section-label">Breweries</span>
+        <h2>参加ブルワリー</h2>
+      </div>
+      <a href="breweries.html" class="section-link">
+        すべてのブルワリーを見る
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+    <div class="brewery-logos">
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">富</div>
+        <div class="brewery-logo-name">富士山麓醸造所</div>
+        <div class="brewery-logo-loc">静岡県</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">北</div>
+        <div class="brewery-logo-name">北海道麦酒醸造</div>
+        <div class="brewery-logo-loc">北海道</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">京</div>
+        <div class="brewery-logo-name">京都クラフトブリュー</div>
+        <div class="brewery-logo-loc">京都府</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">海</div>
+        <div class="brewery-logo-name">海風ブルワリー</div>
+        <div class="brewery-logo-loc">神奈川県</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">信</div>
+        <div class="brewery-logo-name">信州山の湧水醸造</div>
+        <div class="brewery-logo-loc">長野県</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">瀬</div>
+        <div class="brewery-logo-name">瀬戸内ブルーイング</div>
+        <div class="brewery-logo-loc">広島県</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">東</div>
+        <div class="brewery-logo-name">東北クラフト</div>
+        <div class="brewery-logo-loc">宮城県</div>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <div class="brewery-logo-circle">琉</div>
+        <div class="brewery-logo-name">琉球ブルワリー</div>
+        <div class="brewery-logo-loc">沖縄県</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">HACC<span>O</span></div>
+    <p class="footer-tagline">全国のブルワリーと、あなたの食卓をつなぐ。</p>
+    <nav class="footer-links">
+      <a href="#">会社概要</a>
+      <a href="#">特定商取引法に基づく表記</a>
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">定期便について</a>
+    </nav>
+    <div class="footer-bottom">
+      <p class="footer-license">酒類販売業免許 東京都知事第 0001-2025 号</p>
+      <p class="footer-copy">&copy; 2025 HACCO Inc. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Prototype Nav -->
+<nav class="proto-nav">
+  <div class="proto-nav-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span>Prototype Nav</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="proto-nav-list open">
+    <a href="index.html">★ トップページ</a>
+    <a href="products.html">商品一覧</a>
+    <a href="product-detail.html">商品詳細</a>
+    <a href="cart.html">カート</a>
+    <a href="checkout.html">チェックアウト</a>
+    <a href="order-complete.html">注文完了</a>
+    <a href="taste-quiz.html">テイスト診断</a>
+    <a href="taste-result.html">診断結果</a>
+    <a href="breweries.html">ブルワリー一覧</a>
+    <a href="login.html">ログイン</a>
+    <a href="register.html">会員登録</a>
+    <a href="mypage.html">マイページ</a>
+  </div>
+</nav>
+
+<script>
+  // 年齢確認モーダル
+  function closeAgeModal() {
+    sessionStorage.setItem('ageVerified', '1');
+    document.getElementById('ageModal').style.display = 'none';
+  }
+  function showUnder20() {
+    document.getElementById('under20msg').style.display = 'block';
+  }
+  if (sessionStorage.getItem('ageVerified')) {
+    document.getElementById('ageModal').style.display = 'none';
+  }
+</script>
+</body>
+</html>

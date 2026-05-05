@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ご注文ありがとうございます — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.complete-wrap { max-width: 520px; margin: 0 auto; text-align: center; padding-block: 80px 100px; }
+@keyframes checkIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.success-icon { animation: checkIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes fadeUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.complete-title { animation: fadeUp 0.5s ease 0.2s both; }
+.complete-body { animation: fadeUp 0.5s ease 0.35s both; }
+.complete-actions { animation: fadeUp 0.5s ease 0.5s both; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg></a>
+      <button class="header-icon-btn hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav"><div class="mobile-nav__backdrop" onclick="this.closest('.mobile-nav').classList.remove('is-open')"></div><div class="mobile-nav__panel"><button class="mobile-nav__close" onclick="document.getElementById('mobileNav').classList.remove('is-open')" aria-label="閉じる"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button><a href="products.html" class="mobile-nav__link">商品一覧</a><a href="mypage.html" class="mobile-nav__link">マイページ</a></div></div>
+
+<main>
+  <div class="container">
+    <div class="complete-wrap">
+
+      <div class="success-icon">
+        <div style="width:88px;height:88px;border-radius:50%;background:rgba(45,106,79,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="complete-title" style="margin-top:28px;">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:10px;">Order Confirmed</p>
+        <h1 style="font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,36px);font-weight:700;line-height:1.3;">ご注文ありがとうございます</h1>
+      </div>
+
+      <div class="complete-body">
+        <div class="order-info-box" style="margin-block:28px;">
+          <dl style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <dt>注文番号</dt>
+              <dd style="font-size:18px;">HACCO&ndash;20251201&ndash;0042</dd>
+            </div>
+            <div>
+              <dt>合計金額</dt>
+              <dd>¥2,210</dd>
+            </div>
+          </dl>
+        </div>
+
+        <p style="font-size:15px;color:var(--color-secondary);line-height:1.8;margin-bottom:8px;">
+          ご注文の確認メールを <strong>tanaka.masako@example.com</strong> に送信しました。
+        </p>
+        <p style="font-size:14px;color:var(--color-text-muted);line-height:1.7;">
+          お届け予定日：<strong style="color:var(--color-text);">2025年12月2日（火）午前中</strong><br>
+          配送会社から追跡番号をご連絡します。
+        </p>
+
+        <div style="background:rgba(191,123,46,0.08);border:1px solid rgba(191,123,46,0.2);border-radius:6px;padding:16px 20px;margin-block:24px;text-align:left;">
+          <p style="font-size:13px;line-height:1.7;color:var(--color-secondary);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" style="vertical-align:-2px;margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
+            お酒は20歳以上の方のみご購入いただけます。お届け時に年齢確認をさせていただく場合があります。
+          </p>
+        </div>
+      </div>
+
+      <div class="complete-actions" style="display:flex;flex-direction:column;gap:12px;">
+        <a href="index.html" class="btn btn--primary btn--full btn--lg">トップへ戻る</a>
+        <a href="mypage.html" class="btn btn--secondary btn--full">注文履歴を見る</a>
+      </div>
+
+      <p style="margin-top:40px;font-size:13px;color:var(--color-text-muted);line-height:1.7;">
+        ご不明な点がございましたら<a href="#" style="color:var(--color-accent);text-decoration:underline;text-underline-offset:2px;">お問い合わせフォーム</a>よりご連絡ください。
+      </p>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid"><div class="footer-brand"><div class="site-logo">HACC<span>O</span></div><p>全国のクラフトビールブルワリーと消費者をつなぐECプラットフォーム。</p></div><div class="footer-col"><h4>サービス</h4><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー紹介</a></div><div class="footer-col"><h4>会社情報</h4><a href="#">特定商取引法</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a></div></div>
+    <div class="footer-bottom"><span>&copy;&nbsp;2025 HACCO Inc.</span><span class="license-badge">酒類販売業免許 東京都知事 第12345号</span></div>
+  </div>
+</footer>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">チェックアウト</a><a href="order-complete.html">🔵 注文完了</a><a href="taste-quiz.html">テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">ログイン</a><a href="register.html">会員登録</a><a href="mypage.html">マイページ</a></div>
+</div>
+<script>document.addEventListener('click',function(e){const nav=document.getElementById('protoNav');if(!nav.contains(e.target))nav.classList.remove('is-open');});</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テイスト診断 — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.quiz-wrap { max-width: 640px; margin: 0 auto; padding-block: 60px 100px; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.quiz-question { animation: slideIn 0.3s ease both; }
+@media (max-width: 540px) { .quiz-options { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html" style="color:var(--color-accent);">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg><span class="badge">2</span></a>
+      <button class="header-icon-btn hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav"><div class="mobile-nav__backdrop" onclick="this.closest('.mobile-nav').classList.remove('is-open')"></div><div class="mobile-nav__panel"><button class="mobile-nav__close" onclick="document.getElementById('mobileNav').classList.remove('is-open')" aria-label="閉じる"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button><a href="products.html" class="mobile-nav__link">商品一覧</a><a href="taste-quiz.html" class="mobile-nav__link">テイスト診断</a><a href="breweries.html" class="mobile-nav__link">ブルワリー</a><a href="mypage.html" class="mobile-nav__link">マイページ</a></div></div>
+
+<main>
+  <div class="container">
+    <div class="quiz-wrap">
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:48px;">
+        <p class="section-eyebrow" style="justify-content:center;display:flex;">Taste Quiz</p>
+        <h1 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,40px);font-weight:700;margin-bottom:12px;">あなたの一本を見つけよう</h1>
+        <p style="font-size:15px;color:var(--color-text-muted);line-height:1.7;">4問の質問に答えるだけで、あなたの好みに合うクラフトビールをご提案します。</p>
+      </div>
+
+      <!-- Progress -->
+      <div style="margin-bottom:32px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:600;color:var(--color-accent);" id="progressLabel">Q1 / 4</span>
+          <span style="font-size:12px;color:var(--color-text-muted);" id="progressPct">25%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar__fill" id="progressBar" style="width:25%;"></div>
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div id="quizContainer">
+
+        <!-- Q1 -->
+        <div class="quiz-question" id="q1">
+          <h2 style="font-size:clamp(18px,3vw,24px);font-weight:700;line-height:1.4;margin-bottom:28px;text-align:center;">
+            どんな飲み口が好きですか？
+          </h2>
+          <div class="quiz-options">
+            <label class="quiz-option" onclick="selectOption(this, 'q1')">
+              <div class="quiz-option__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg>
+              </div>
+              <div>
+                <p class="quiz-option__text">すっきり爽快</p>
+                <p class="quiz-option__sub">軽くて飲みやすい</p>
+              </div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q1')">
+              <div class="quiz-option__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+              </div>
+              <div>
+                <p class="quiz-option__text">深みのある濃厚</p>
+                <p class="quiz-option__sub">コクと重みが好き</p>
+              </div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q1')">
+              <div class="quiz-option__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+              </div>
+              <div>
+                <p class="quiz-option__text">フルーティ</p>
+                <p class="quiz-option__sub">フルーツのような香り</p>
+              </div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q1')">
+              <div class="quiz-option__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+              </div>
+              <div>
+                <p class="quiz-option__text">苦みが好き</p>
+                <p class="quiz-option__sub">ホップの効いた風味</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question" id="q2" style="display:none;">
+          <h2 style="font-size:clamp(18px,3vw,24px);font-weight:700;line-height:1.4;margin-bottom:28px;text-align:center;">
+            どんなシーンで飲みたいですか？
+          </h2>
+          <div class="quiz-options">
+            <label class="quiz-option" onclick="selectOption(this, 'q2')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg></div>
+              <div><p class="quiz-option__text">自宅でゆっくり</p><p class="quiz-option__sub">週末のリラックスタイム</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q2')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
+              <div><p class="quiz-option__text">友人との集まり</p><p class="quiz-option__sub">みんなで楽しく</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q2')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1014.625 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 109.375 7.5H12m0 0H7.875M12 7.5h4.125M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg></div>
+              <div><p class="quiz-option__text">贈り物として</p><p class="quiz-option__sub">特別なギフトに</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q2')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5"/></svg></div>
+              <div><p class="quiz-option__text">食事と合わせて</p><p class="quiz-option__sub">料理をもっと美味しく</p></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-question" id="q3" style="display:none;">
+          <h2 style="font-size:clamp(18px,3vw,24px);font-weight:700;line-height:1.4;margin-bottom:28px;text-align:center;">
+            ビールへの慣れ親しみは？
+          </h2>
+          <div class="quiz-options">
+            <label class="quiz-option" onclick="selectOption(this, 'q3')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg></div>
+              <div><p class="quiz-option__text">初心者</p><p class="quiz-option__sub">クラフトビールはほぼ初めて</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q3')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg></div>
+              <div><p class="quiz-option__text">中級者</p><p class="quiz-option__sub">いくつか飲んだことがある</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q3')">
+              <div class="quiz-option__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg></div>
+              <div><p class="quiz-option__text">上級者</p><p class="quiz-option__sub">スタイルや産地にこだわる</p></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-question" id="q4" style="display:none;">
+          <h2 style="font-size:clamp(18px,3vw,24px);font-weight:700;line-height:1.4;margin-bottom:28px;text-align:center;">
+            色の好みは？
+          </h2>
+          <div class="quiz-options">
+            <label class="quiz-option" onclick="selectOption(this, 'q4')">
+              <div class="quiz-option__icon" style="background:linear-gradient(135deg,#F0D890,#D4A040);">&nbsp;</div>
+              <div><p class="quiz-option__text">淡い黄金色</p><p class="quiz-option__sub">ラガー・ピルスナー系</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q4')">
+              <div class="quiz-option__icon" style="background:linear-gradient(135deg,#C87820,#8A4010);">&nbsp;</div>
+              <div><p class="quiz-option__text">琥珀色・赤みがかった</p><p class="quiz-option__sub">エール・アンバー系</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q4')">
+              <div class="quiz-option__icon" style="background:linear-gradient(135deg,#2A1008,#0A0408);">&nbsp;</div>
+              <div><p class="quiz-option__text">深い黒褐色</p><p class="quiz-option__sub">スタウト・ポーター系</p></div>
+            </label>
+            <label class="quiz-option" onclick="selectOption(this, 'q4')">
+              <div class="quiz-option__icon" style="background:linear-gradient(135deg,#F5ECD0,#D8C080);">&nbsp;</div>
+              <div><p class="quiz-option__text">白濁した淡色</p><p class="quiz-option__sub">ヴァイツェン・セゾン系</p></div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Nav buttons -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <button class="btn btn--secondary" id="prevBtn" onclick="prevQ()" style="display:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+          前の質問
+        </button>
+        <span></span>
+        <button class="btn btn--primary" id="nextBtn" onclick="nextQ()" disabled>
+          次の質問
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">チェックアウト</a><a href="order-complete.html">注文完了</a><a href="taste-quiz.html">🔵 テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">ログイン</a><a href="register.html">会員登録</a><a href="mypage.html">マイページ</a></div>
+</div>
+
+<script>
+let current = 1;
+const total = 4;
+const answers = {};
+
+function selectOption(el, qid) {
+  el.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(o => o.classList.remove('is-selected'));
+  el.classList.add('is-selected');
+  answers[qid] = el.querySelector('.quiz-option__text').textContent;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQ() {
+  if (current < total) {
+    document.getElementById('q' + current).style.display = 'none';
+    current++;
+    const qEl = document.getElementById('q' + current);
+    qEl.style.display = 'block';
+    qEl.style.animation = 'none';
+    qEl.offsetHeight;
+    qEl.style.animation = '';
+    updateProgress();
+    document.getElementById('prevBtn').style.display = 'flex';
+    document.getElementById('nextBtn').disabled = !answers['q' + current];
+    if (current === total) document.getElementById('nextBtn').textContent = '診断結果を見る ›';
+  } else {
+    window.location.href = 'taste-result.html';
+  }
+}
+
+function prevQ() {
+  if (current > 1) {
+    document.getElementById('q' + current).style.display = 'none';
+    current--;
+    document.getElementById('q' + current).style.display = 'block';
+    updateProgress();
+    if (current === 1) document.getElementById('prevBtn').style.display = 'none';
+    document.getElementById('nextBtn').disabled = false;
+    document.getElementById('nextBtn').textContent = current < total ? '次の質問 ›' : '診断結果を見る ›';
+  }
+}
+
+function updateProgress() {
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Q' + current + ' / ' + total;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('protoNav');
+  if (!nav.contains(e.target)) nav.classList.remove('is-open');
+});
+</script>
+</body>
+</html>

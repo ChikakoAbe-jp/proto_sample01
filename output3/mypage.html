@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ — HACCO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .mypage-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .mypage-layout { grid-template-columns: 1fr; }
+      .mypage-sidenav { display: none; }
+    }
+
+    /* サイドナビ */
+    .mypage-sidenav {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+    }
+    .mypage-user {
+      padding: 24px;
+      background: var(--color-primary-light);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .mypage-user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .mypage-user-name {
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .mypage-user-email {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+    .sidenav-menu { padding: 8px 0; }
+    .sidenav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .sidenav-item:hover { background: var(--color-surface-alt); color: var(--color-text); }
+    .sidenav-item.active {
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      border-left-color: var(--color-primary);
+      font-weight: 600;
+    }
+    .sidenav-item svg { flex-shrink: 0; }
+
+    /* モバイルタブ */
+    .mobile-tabs {
+      display: none;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--color-border-light);
+      margin-bottom: 28px;
+      gap: 0;
+    }
+    @media (max-width: 900px) { .mobile-tabs { display: flex; } }
+    .mobile-tab {
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .mobile-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+    /* コンテンツエリア */
+    .mypage-section { display: none; }
+    .mypage-section.active { display: block; }
+
+    /* 注文カード */
+    .order-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .order-card-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-border-light);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .order-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .order-number { font-size: 14px; font-weight: 700; color: var(--color-text); }
+    .order-date { font-size: 12px; color: var(--color-text-muted); }
+    .order-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .status-shipped {
+      background: #e6f4ed;
+      color: var(--color-success);
+    }
+    .status-processing {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+    .status-delivered {
+      background: var(--color-surface-alt);
+      color: var(--color-text-muted);
+    }
+    .order-card-body {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .order-item-imgs {
+      display: flex;
+      gap: -8px;
+    }
+    .order-item-img {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-light);
+      object-fit: cover;
+      margin-left: -8px;
+    }
+    .order-item-img:first-child { margin-left: 0; }
+    .order-summary-info { flex: 1; }
+    .order-summary-text { font-size: 13px; color: var(--color-text-muted); margin-bottom: 2px; }
+    .order-total { font-size: 15px; font-weight: 700; }
+    .order-detail-link {
+      font-size: 13px;
+      color: var(--color-primary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    /* お気に入りグリッド */
+    .fav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 600px) { .fav-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* 登録情報 */
+    .info-section {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .info-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .info-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border-light);
+      font-size: 14px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--color-text-muted); font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav">
+      <a href="products.html">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-icon-btn" aria-label="お気に入り"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <button class="header-icon-btn" aria-label="カート"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="badge">2</span></button>
+      <a href="login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+    <button class="hamburger-btn" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="container">
+      <h1>マイページ</h1>
+    </div>
+  </div>
+
+  <div class="container" style="padding-bottom: 80px;">
+    <!-- モバイルタブ -->
+    <div class="mobile-tabs">
+      <button class="mobile-tab active" onclick="switchSection(this, 'orders')">注文履歴</button>
+      <button class="mobile-tab" onclick="switchSection(this, 'favorites')">お気に入り</button>
+      <button class="mobile-tab" onclick="switchSection(this, 'profile')">登録情報</button>
+    </div>
+
+    <div class="mypage-layout">
+      <!-- サイドナビ -->
+      <aside class="mypage-sidenav">
+        <div class="mypage-user">
+          <div class="mypage-user-avatar">山</div>
+          <p class="mypage-user-name">山田 太郎</p>
+          <p class="mypage-user-email">yamada.taro@example.com</p>
+        </div>
+        <nav class="sidenav-menu">
+          <div class="sidenav-item active" onclick="switchSection(this, 'orders', true)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l1.578 12.621A2 2 0 0 0 6.565 16H17.435a2 2 0 0 0 1.987-1.379L21 2"/><path d="M3 2h18"/><path d="M12 16v6"/><path d="M8 22h8"/></svg>
+            注文履歴
+          </div>
+          <div class="sidenav-item" onclick="switchSection(this, 'favorites', true)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            お気に入り
+          </div>
+          <div class="sidenav-item" onclick="switchSection(this, 'profile', true)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            登録情報の編集
+          </div>
+          <hr class="divider" style="margin: 8px 0;">
+          <a href="login.html" class="sidenav-item" style="color: var(--color-error);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            ログアウト
+          </a>
+        </nav>
+      </aside>
+
+      <!-- メインコンテンツ -->
+      <div>
+        <!-- 注文履歴 -->
+        <div class="mypage-section active" id="section-orders">
+          <h2 style="font-size: 20px; margin-bottom: 24px;">注文履歴</h2>
+
+          <div class="order-card">
+            <div class="order-card-header">
+              <div class="order-header-left">
+                <span class="order-number">HC-2025-8341</span>
+                <span class="order-date">2025年11月28日</span>
+              </div>
+              <span class="order-status status-shipped">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                発送済み
+              </span>
+            </div>
+            <div class="order-card-body">
+              <div class="order-item-imgs">
+                <img src="https://placehold.co/44x44/f4efe7/c4832a?text=IPA" alt="商品" class="order-item-img">
+                <img src="https://placehold.co/44x44/fdf4e8/c4832a?text=Y" alt="商品" class="order-item-img">
+              </div>
+              <div class="order-summary-info">
+                <p class="order-summary-text">富士フルーティIPA ×2、京の薫り柚子ビール ×4</p>
+                <p class="order-total">¥4,640</p>
+              </div>
+              <a href="order-complete.html" class="order-detail-link">
+                詳細
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <div class="order-card-header">
+              <div class="order-header-left">
+                <span class="order-number">HC-2025-7209</span>
+                <span class="order-date">2025年10月15日</span>
+              </div>
+              <span class="order-status status-delivered">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                お届け済み
+              </span>
+            </div>
+            <div class="order-card-body">
+              <div class="order-item-imgs">
+                <img src="https://placehold.co/44x44/2c2018/f9f5ef?text=S" alt="商品" class="order-item-img">
+                <img src="https://placehold.co/44x44/eef2f9/1350b2?text=L" alt="商品" class="order-item-img">
+                <img src="https://placehold.co/44x44/f0ede8/7a6554?text=P" alt="商品" class="order-item-img">
+              </div>
+              <div class="order-summary-info">
+                <p class="order-summary-text">仙台夜の深みスタウト他 3商品</p>
+                <p class="order-total">¥7,280</p>
+              </div>
+              <a href="order-complete.html" class="order-detail-link">
+                詳細
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <div class="order-card-header">
+              <div class="order-header-left">
+                <span class="order-number">HC-2025-5441</span>
+                <span class="order-date">2025年9月3日</span>
+              </div>
+              <span class="order-status status-delivered">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                お届け済み
+              </span>
+            </div>
+            <div class="order-card-body">
+              <div class="order-item-imgs">
+                <img src="https://placehold.co/44x44/e8e4f0/5a4a8a?text=H" alt="商品" class="order-item-img">
+                <img src="https://placehold.co/44x44/f8f0e4/c4832a?text=L" alt="商品" class="order-item-img">
+              </div>
+              <div class="order-summary-info">
+                <p class="order-summary-text">海風ヘイジーIPA、瀬戸内レモンエール 各3本</p>
+                <p class="order-total">¥4,470</p>
+              </div>
+              <a href="order-complete.html" class="order-detail-link">
+                詳細
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- お気に入り -->
+        <div class="mypage-section" id="section-favorites">
+          <h2 style="font-size: 20px; margin-bottom: 24px;">お気に入り <span style="font-size: 15px; color: var(--color-text-muted); font-weight: 400;">（3点）</span></h2>
+          <div class="fav-grid">
+            <article class="product-card">
+              <a href="product-detail.html"><img src="https://placehold.co/400x400/fdf4e8/c4832a?text=Yuzu" alt="京の薫り柚子ビール" class="product-card__img"></a>
+              <button class="product-card__fav active" aria-label="お気に入りから削除"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+              <div class="product-card__body">
+                <p class="product-card__brewery">京都クラフトブリュー</p>
+                <h3 class="product-card__name"><a href="product-detail.html">京の薫り柚子ビール</a></h3>
+                <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span></div>
+                <p class="product-card__price">¥820 <small>税込</small></p>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <a href="product-detail.html"><img src="https://placehold.co/400x400/f4efe7/c4832a?text=IPA" alt="富士フルーティIPA" class="product-card__img"></a>
+              <button class="product-card__fav active" aria-label="お気に入りから削除"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+              <div class="product-card__body">
+                <p class="product-card__brewery">富士山麓醸造所</p>
+                <h3 class="product-card__name"><a href="product-detail.html">富士フルーティIPA</a></h3>
+                <div class="product-card__tags"><span class="tag tag-navy">IPA</span></div>
+                <p class="product-card__price">¥680 <small>税込</small></p>
+              </div>
+            </article>
+
+            <article class="product-card">
+              <a href="product-detail.html"><img src="https://placehold.co/400x400/e8e4f0/5a4a8a?text=Hazy" alt="海風ヘイジーIPA" class="product-card__img"></a>
+              <button class="product-card__fav active" aria-label="お気に入りから削除"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+              <div class="product-card__body">
+                <p class="product-card__brewery">海風ブルワリー</p>
+                <h3 class="product-card__name"><a href="product-detail.html">海風ヘイジーIPA</a></h3>
+                <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span></div>
+                <p class="product-card__price">¥780 <small>税込</small></p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- 登録情報 -->
+        <div class="mypage-section" id="section-profile">
+          <h2 style="font-size: 20px; margin-bottom: 24px;">登録情報の編集</h2>
+
+          <div class="info-section">
+            <div class="info-section-title">
+              基本情報
+              <button class="btn btn-outline btn-sm">編集</button>
+            </div>
+            <div class="info-row"><span class="info-label">氏名</span><span>山田 太郎</span></div>
+            <div class="info-row"><span class="info-label">メール</span><span>yamada.taro@example.com</span></div>
+            <div class="info-row"><span class="info-label">生年月日</span><span>1988年4月15日</span></div>
+          </div>
+
+          <div class="info-section">
+            <div class="info-section-title">
+              住所
+              <button class="btn btn-outline btn-sm">編集</button>
+            </div>
+            <div class="info-row"><span class="info-label">郵便番号</span><span>150-0001</span></div>
+            <div class="info-row"><span class="info-label">住所</span><span>東京都渋谷区代々木1-2-3 HACCOビル401号室</span></div>
+            <div class="info-row"><span class="info-label">電話番号</span><span>090-1234-5678</span></div>
+          </div>
+
+          <div class="info-section">
+            <div class="info-section-title">
+              パスワード変更
+              <button class="btn btn-outline btn-sm">変更</button>
+            </div>
+            <div class="info-row"><span class="info-label">パスワード</span><span>••••••••</span></div>
+          </div>
+
+          <div class="info-section">
+            <div class="info-section-title">メール通知設定</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>注文・発送に関するお知らせ</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" checked>
+                <span>新着ビール・おすすめ情報</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox">
+                <span>セール・キャンペーン情報</span>
+              </label>
+            </div>
+            <div style="margin-top: 20px;">
+              <button class="btn btn-primary btn-sm">保存する</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">HACC<span>O</span></div>
+    <p class="footer-tagline">全国のブルワリーと、あなたの食卓をつなぐ。</p>
+    <nav class="footer-links"><a href="#">会社概要</a><a href="#">特定商取引法に基づく表記</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a></nav>
+    <div class="footer-bottom">
+      <p class="footer-license">酒類販売業免許 東京都知事第 0001-2025 号</p>
+      <p class="footer-copy">&copy; 2025 HACCO Inc.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Prototype Nav -->
+<nav class="proto-nav">
+  <div class="proto-nav-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span>Prototype Nav</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="proto-nav-list">
+    <a href="index.html">トップページ</a>
+    <a href="products.html">商品一覧</a>
+    <a href="product-detail.html">商品詳細</a>
+    <a href="cart.html">カート</a>
+    <a href="checkout.html">チェックアウト</a>
+    <a href="order-complete.html">注文完了</a>
+    <a href="taste-quiz.html">テイスト診断</a>
+    <a href="taste-result.html">診断結果</a>
+    <a href="breweries.html">ブルワリー一覧</a>
+    <a href="login.html">ログイン</a>
+    <a href="register.html">会員登録</a>
+    <a href="mypage.html">★ マイページ</a>
+  </div>
+</nav>
+
+<script>
+  function switchSection(el, section, isSidenav) {
+    // コンテンツ切り替え
+    document.querySelectorAll('.mypage-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + section).classList.add('active');
+
+    // サイドナビ
+    document.querySelectorAll('.sidenav-item').forEach(i => i.classList.remove('active'));
+    if (isSidenav) el.classList.add('active');
+
+    // モバイルタブ
+    document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
+    if (!isSidenav) el.classList.add('active');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注文完了 — HACCO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .complete-page {
+      min-height: calc(100vh - var(--header-h));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    .complete-box {
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+    .check-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #e6f4ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      color: var(--color-success);
+    }
+    .order-number-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: 24px 32px;
+      margin: 32px 0;
+      display: inline-block;
+    }
+    .order-number-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+    .order-number-value {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-text);
+      letter-spacing: 0.05em;
+    }
+    .delivery-info {
+      background: var(--color-primary-light);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+    .delivery-info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+    }
+    .delivery-info-row dt { color: var(--color-text-muted); }
+    .delivery-info-row dd { font-weight: 600; color: var(--color-primary); }
+    .complete-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .complete-note {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー（シンプル） -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+  </div>
+</header>
+
+<main class="complete-page">
+  <div class="complete-box">
+    <!-- チェックマーク -->
+    <div class="check-circle">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <span class="section-label" style="display: block; margin-bottom: 12px;">Order Confirmed</span>
+    <h1 style="font-size: clamp(24px, 4vw, 32px);">ご注文ありがとうございます</h1>
+    <p style="font-size: 15px; color: var(--color-text-muted); margin-top: 12px; line-height: 1.7;">
+      ご注文を承りました。<br>
+      確認メールを <strong style="color: var(--color-text);">yamada.taro@example.com</strong> に送信しました。
+    </p>
+
+    <!-- 注文番号 -->
+    <div class="order-number-box">
+      <p class="order-number-label">Order Number</p>
+      <p class="order-number-value">HC-2025-8341</p>
+    </div>
+
+    <!-- 配送情報 -->
+    <div class="delivery-info">
+      <dl>
+        <div class="delivery-info-row">
+          <dt>お届け予定日</dt>
+          <dd>2025年12月2日（火）</dd>
+        </div>
+        <div class="delivery-info-row">
+          <dt>時間帯</dt>
+          <dd>14:00〜16:00</dd>
+        </div>
+        <div class="delivery-info-row">
+          <dt>お届け先</dt>
+          <dd>東京都渋谷区代々木1-2-3</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- CTA -->
+    <div class="complete-actions">
+      <a href="index.html" class="btn btn-primary btn-lg">トップページへ戻る</a>
+      <a href="mypage.html" class="btn btn-secondary">注文履歴を見る</a>
+    </div>
+
+    <p class="complete-note">
+      発送のご連絡はメールでお知らせします。<br>
+      ご不明な点がございましたら、
+      <a href="#" style="color: var(--color-primary);">お問い合わせフォーム</a>よりご連絡ください。
+    </p>
+
+    <!-- おすすめ誘導 -->
+    <hr class="divider" style="margin: 40px 0 32px;">
+    <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 16px;">次のお気に入りを探してみませんか？</p>
+    <a href="products.html" class="btn btn-outline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      商品一覧を見る
+    </a>
+  </div>
+</main>
+
+<!-- Prototype Nav -->
+<nav class="proto-nav">
+  <div class="proto-nav-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span>Prototype Nav</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="proto-nav-list">
+    <a href="index.html">トップページ</a>
+    <a href="products.html">商品一覧</a>
+    <a href="product-detail.html">商品詳細</a>
+    <a href="cart.html">カート</a>
+    <a href="checkout.html">チェックアウト</a>
+    <a href="order-complete.html">★ 注文完了</a>
+    <a href="taste-quiz.html">テイスト診断</a>
+    <a href="taste-result.html">診断結果</a>
+    <a href="breweries.html">ブルワリー一覧</a>
+    <a href="login.html">ログイン</a>
+    <a href="register.html">会員登録</a>
+    <a href="mypage.html">マイページ</a>
+  </div>
+</nav>
+</body>
+</html>

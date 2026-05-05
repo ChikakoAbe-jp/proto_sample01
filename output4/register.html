@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会員登録 — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.register-wrap { max-width: 520px; margin: 0 auto; padding-block: 56px 80px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg><span class="badge">2</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="register-wrap">
+      <div style="margin-bottom:36px;text-align:center;">
+        <p style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Create Account</p>
+        <h1 style="font-size:28px;font-weight:700;margin-bottom:8px;">新規会員登録</h1>
+        <p style="font-size:14px;color:var(--color-text-muted);">すでにアカウントをお持ちの方は<a href="login.html" style="color:var(--color-accent);text-decoration:underline;text-underline-offset:2px;">ログイン</a></p>
+      </div>
+
+      <form onsubmit="handleRegister(event)" novalidate style="display:flex;flex-direction:column;gap:20px;">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="lastName">姓 <span>*</span></label>
+            <input class="form-input" id="lastName" type="text" placeholder="田中" autocomplete="family-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="firstName">名 <span>*</span></label>
+            <input class="form-input" id="firstName" type="text" placeholder="雅子" autocomplete="given-name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regEmail">メールアドレス <span>*</span></label>
+          <input class="form-input" id="regEmail" type="email" placeholder="hacco@example.com" autocomplete="email">
+          <p class="form-helper">ご注文確認メールをお送りします。</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword">パスワード <span>*</span></label>
+          <div style="position:relative;">
+            <input class="form-input" id="regPassword" type="password" placeholder="8文字以上" autocomplete="new-password" style="padding-right:48px;">
+            <button type="button" onclick="togglePw('regPassword')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);padding:4px;" aria-label="パスワードを表示">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+          </div>
+          <p class="form-helper">半角英数字・記号8文字以上</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword2">パスワード（確認） <span>*</span></label>
+          <input class="form-input" id="regPassword2" type="password" placeholder="もう一度入力" autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="birthdate">生年月日 <span>*</span></label>
+          <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="form-select-wrap">
+              <select class="form-select" aria-label="年">
+                <option value="">年</option>
+                <option>2004</option><option>2003</option><option>2002</option><option>2001</option><option>2000</option>
+                <option>1999</option><option>1998</option><option>1990</option><option>1985</option><option>1980</option>
+              </select>
+            </div>
+            <div class="form-select-wrap">
+              <select class="form-select" aria-label="月">
+                <option value="">月</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+                <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+              </select>
+            </div>
+            <div class="form-select-wrap">
+              <select class="form-select" aria-label="日">
+                <option value="">日</option>
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option>10</option><option>15</option><option>20</option><option>25</option><option>28</option>
+              </select>
+            </div>
+          </div>
+          <p class="form-helper">酒類購入の年齢確認に使用します（20歳以上の方のみご利用いただけます）。</p>
+        </div>
+
+        <div style="background:var(--color-surface-alt);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:12px;">
+          <label class="form-check">
+            <input type="checkbox" required>
+            <span class="form-check__label">
+              <a href="#">利用規約</a>および<a href="#">プライバシーポリシー</a>に同意します。<span style="color:var(--color-error);margin-left:2px;">*</span>
+            </span>
+          </label>
+          <label class="form-check">
+            <input type="checkbox">
+            <span class="form-check__label">新着ビールや特集のお知らせメールを受け取る（任意）</span>
+          </label>
+        </div>
+
+        <div>
+          <button type="submit" class="btn btn--primary btn--full btn--lg">登録する</button>
+          <p style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-top:12px;line-height:1.7;">
+            登録後、ご入力のメールアドレスに確認メールをお送りします。<br>
+            メール内のリンクをクリックして登録を完了してください。
+          </p>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid"><div class="footer-brand"><div class="site-logo">HACC<span>O</span></div><p>全国のクラフトビールブルワリーと消費者をつなぐECプラットフォーム。</p></div><div class="footer-col"><h4>サービス</h4><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a></div><div class="footer-col"><h4>会社情報</h4><a href="#">特定商取引法</a><a href="#">プライバシーポリシー</a></div></div>
+    <div class="footer-bottom"><span>&copy;&nbsp;2025 HACCO Inc.</span><span class="license-badge">酒類販売業免許 東京都知事 第12345号</span></div>
+  </div>
+</footer>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">チェックアウト</a><a href="order-complete.html">注文完了</a><a href="taste-quiz.html">テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">ログイン</a><a href="register.html">🔵 会員登録</a><a href="mypage.html">マイページ</a></div>
+</div>
+
+<script>
+function handleRegister(e) {
+  e.preventDefault();
+  window.location.href = 'mypage.html';
+}
+function togglePw(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('protoNav');
+  if (!nav.contains(e.target)) nav.classList.remove('is-open');
+});
+</script>
+</body>
+</html>

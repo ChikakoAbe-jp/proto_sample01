@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ご購入手続き — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.checkout-layout { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; }
+.checkout-section { background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: 8px; padding: 28px 32px; margin-bottom: 20px; }
+.checkout-section__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.checkout-section__title { font-size: 17px; font-weight: 700; }
+.checkout-section.is-done { opacity: 0.6; }
+.checkout-section.is-done .checkout-section__body { display: none; }
+.done-summary { font-size: 13px; color: var(--color-text-muted); }
+.delivery-time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.time-option { border: 2px solid var(--color-border); border-radius: 6px; padding: 12px 14px; cursor: pointer; transition: all 0.22s; }
+.time-option:hover { border-color: var(--color-accent); }
+.time-option.is-selected { border-color: var(--color-accent); background: rgba(191,123,46,0.06); }
+.time-option input { display: none; }
+.time-option__label { font-size: 14px; font-weight: 500; }
+.time-option__sub { font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+.pay-option { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 2px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; cursor: pointer; transition: all 0.22s; }
+.pay-option:hover { border-color: var(--color-accent); }
+.pay-option.is-selected { border-color: var(--color-accent); background: rgba(191,123,46,0.04); }
+.pay-option input { accent-color: var(--color-accent); width: 18px; height: 18px; }
+.pay-option__icon { width: 40px; height: 28px; border: 1px solid var(--color-border-light); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; background: #fff; }
+@media (max-width: 900px) { .checkout-layout { grid-template-columns: 1fr; } .order-summary-card { position: static; } }
+@media (max-width: 600px) { .checkout-section { padding: 20px; } .delivery-time-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg><span class="badge">2</span></a>
+      <button class="header-icon-btn hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav"><div class="mobile-nav__backdrop" onclick="this.closest('.mobile-nav').classList.remove('is-open')"></div><div class="mobile-nav__panel"><button class="mobile-nav__close" onclick="document.getElementById('mobileNav').classList.remove('is-open')" aria-label="閉じる"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button><a href="products.html" class="mobile-nav__link">商品一覧</a><a href="mypage.html" class="mobile-nav__link">マイページ</a></div></div>
+
+<main>
+  <div class="container" style="padding-block: 40px 80px;">
+    <h1 style="font-size:26px;font-weight:700;margin-bottom:32px;">ご購入手続き</h1>
+
+    <!-- Stepper -->
+    <div class="stepper" role="list">
+      <div class="step-item is-done" role="listitem">
+        <div class="step-wrap">
+          <div class="step-dot">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          </div>
+          <span class="step-label">配送先</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-item is-active" role="listitem">
+        <div class="step-wrap">
+          <div class="step-dot">2</div>
+          <span class="step-label">お届け日時</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-item" role="listitem">
+        <div class="step-wrap">
+          <div class="step-dot">3</div>
+          <span class="step-label">お支払い</span>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-item" role="listitem">
+        <div class="step-wrap">
+          <div class="step-dot">4</div>
+          <span class="step-label">確認</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-layout">
+      <div>
+        <!-- Step 1: 配送先 (done) -->
+        <div class="checkout-section is-done">
+          <div class="checkout-section__header">
+            <h2 class="checkout-section__title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" style="vertical-align:-2px;margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              配送先
+            </h2>
+            <button class="btn btn--sm btn--outline-accent" onclick="editStep(1)">変更</button>
+          </div>
+          <div class="done-summary">
+            <p style="font-size:14px;color:var(--color-text);font-weight:600;">田中 雅子</p>
+            <p>〒150-0001 東京都渋谷区神南1&ndash;2&ndash;3 パレスビル 402号</p>
+            <p>090-1234-5678</p>
+          </div>
+        </div>
+
+        <!-- Step 2: お届け日時 (active) -->
+        <div class="checkout-section" id="step2">
+          <div class="checkout-section__header">
+            <h2 class="checkout-section__title">お届け日時</h2>
+          </div>
+          <div class="checkout-section__body">
+            <div class="form-group" style="margin-bottom:20px;">
+              <label class="form-label" for="deliveryDate">配送希望日 <span>*</span></label>
+              <div class="form-select-wrap">
+                <select class="form-select" id="deliveryDate">
+                  <option>2025年12月2日（火）</option>
+                  <option>2025年12月3日（水）</option>
+                  <option>2025年12月4日（木）</option>
+                  <option>2025年12月5日（金）</option>
+                  <option>2025年12月6日（土）</option>
+                </select>
+              </div>
+              <p class="form-helper">注文日から3日後以降をご指定ください。</p>
+            </div>
+
+            <div class="form-group">
+              <p class="form-label">時間帯指定</p>
+              <div class="delivery-time-grid">
+                <label class="time-option is-selected" onclick="selectTime(this)">
+                  <input type="radio" name="time" checked>
+                  <p class="time-option__label">午前中</p>
+                  <p class="time-option__sub">〜12:00</p>
+                </label>
+                <label class="time-option" onclick="selectTime(this)">
+                  <input type="radio" name="time">
+                  <p class="time-option__label">14〜16時</p>
+                  <p class="time-option__sub">14:00〜16:00</p>
+                </label>
+                <label class="time-option" onclick="selectTime(this)">
+                  <input type="radio" name="time">
+                  <p class="time-option__label">16〜18時</p>
+                  <p class="time-option__sub">16:00〜18:00</p>
+                </label>
+                <label class="time-option" onclick="selectTime(this)">
+                  <input type="radio" name="time">
+                  <p class="time-option__label">18〜20時</p>
+                  <p class="time-option__sub">18:00〜20:00</p>
+                </label>
+                <label class="time-option" onclick="selectTime(this)">
+                  <input type="radio" name="time">
+                  <p class="time-option__label">20〜21時</p>
+                  <p class="time-option__sub">20:00〜21:00</p>
+                </label>
+              </div>
+            </div>
+
+            <div style="margin-top:24px;">
+              <button class="btn btn--primary" onclick="nextStep(2)">次へ：お支払い方法</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: お支払い -->
+        <div class="checkout-section" id="step3" style="opacity:0.4;pointer-events:none;">
+          <div class="checkout-section__header">
+            <h2 class="checkout-section__title">お支払い方法</h2>
+          </div>
+          <div class="checkout-section__body">
+            <label class="pay-option is-selected">
+              <input type="radio" name="payment" checked>
+              <div class="pay-option__icon">VISA</div>
+              <div>
+                <p style="font-size:14px;font-weight:600;">クレジットカード</p>
+                <p style="font-size:12px;color:var(--color-text-muted);">Visa / Mastercard / AMEX</p>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payment">
+              <div class="pay-option__icon" style="font-size:9px;">CVS</div>
+              <div>
+                <p style="font-size:14px;font-weight:600;">コンビニ払い</p>
+                <p style="font-size:12px;color:var(--color-text-muted);">ローソン / ファミマ / セブン</p>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payment">
+              <div class="pay-option__icon" style="font-size:9px;">振込</div>
+              <div>
+                <p style="font-size:14px;font-weight:600;">銀行振込</p>
+                <p style="font-size:12px;color:var(--color-text-muted);">入金確認後に発送</p>
+              </div>
+            </label>
+
+            <div id="cardFields" style="margin-top:20px;display:flex;flex-direction:column;gap:16px;">
+              <div class="form-group">
+                <label class="form-label" for="cardNum">カード番号 <span>*</span></label>
+                <input class="form-input" id="cardNum" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="cardExp">有効期限 <span>*</span></label>
+                  <input class="form-input" id="cardExp" type="text" placeholder="MM / YY">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cardCvc">セキュリティコード <span>*</span></label>
+                  <input class="form-input" id="cardCvc" type="text" placeholder="CVC" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:24px;">
+              <button class="btn btn--primary" onclick="nextStep(3)">次へ：注文確認</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: 確認 -->
+        <div class="checkout-section" id="step4" style="opacity:0.4;pointer-events:none;">
+          <div class="checkout-section__header">
+            <h2 class="checkout-section__title">注文内容の確認</h2>
+          </div>
+          <div class="checkout-section__body">
+            <div style="background:var(--color-surface-alt);border-radius:6px;padding:20px;margin-bottom:20px;font-size:14px;line-height:1.8;">
+              <p><strong>配送先：</strong>田中 雅子 / 〒150-0001 東京都渋谷区神南1&ndash;2&ndash;3</p>
+              <p><strong>お届け日時：</strong>2025年12月2日（火）午前中</p>
+              <p><strong>お支払い：</strong>クレジットカード（Visa ****&nbsp;3456）</p>
+            </div>
+            <div style="margin-bottom:20px;">
+              <div class="summary-line"><span>FUJI IPA × 2</span><span>¥1,360</span></div>
+              <div class="summary-line"><span>北の大地 スタウト × 1</span><span>¥850</span></div>
+              <div class="summary-line"><span>送料</span><span style="color:var(--color-success);">無料</span></div>
+              <div class="summary-line summary-line--total"><span class="label">合計 (税込)</span><strong>¥2,210</strong></div>
+            </div>
+            <a href="order-complete.html" class="btn btn--primary btn--full btn--lg">注文を確定する</a>
+            <p style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-top:12px;">「注文を確定する」を押すと利用規約に同意したものとみなされます。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Sidebar -->
+      <div class="order-summary-card">
+        <h3>注文内容</h3>
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;gap:10px;padding-block:8px;border-bottom:1px solid var(--color-border-light);font-size:13px;">
+            <div style="width:44px;height:44px;border-radius:4px;background:linear-gradient(145deg,#E8C07A,#C8953A);flex-shrink:0;"></div>
+            <div><p style="font-weight:600;">FUJI IPA</p><p style="color:var(--color-text-muted);">× 2</p></div>
+            <span style="margin-left:auto;font-weight:600;">¥1,360</span>
+          </div>
+          <div style="display:flex;gap:10px;padding-block:8px;font-size:13px;">
+            <div style="width:44px;height:44px;border-radius:4px;background:linear-gradient(145deg,#2A1A0E,#5C3015);flex-shrink:0;"></div>
+            <div><p style="font-weight:600;">北の大地 スタウト</p><p style="color:var(--color-text-muted);">× 1</p></div>
+            <span style="margin-left:auto;font-weight:600;">¥850</span>
+          </div>
+        </div>
+        <div class="summary-line"><span class="label">小計</span><span>¥2,210</span></div>
+        <div class="summary-line"><span class="label">送料</span><span style="color:var(--color-success);">無料</span></div>
+        <div class="summary-line summary-line--total"><span class="label">合計 (税込)</span><strong>¥2,210</strong></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">🔵 チェックアウト</a><a href="order-complete.html">注文完了</a><a href="taste-quiz.html">テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">ログイン</a><a href="register.html">会員登録</a><a href="mypage.html">マイページ</a></div>
+</div>
+
+<script>
+function selectTime(el) {
+  document.querySelectorAll('.time-option').forEach(o => o.classList.remove('is-selected'));
+  el.classList.add('is-selected');
+}
+function nextStep(current) {
+  const next = document.getElementById('step' + (current + 1));
+  if (next) {
+    next.style.opacity = '1';
+    next.style.pointerEvents = 'auto';
+    next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  const cur = document.getElementById('step' + current);
+  if (cur) cur.classList.add('is-done');
+}
+function editStep(n) {}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('protoNav');
+  if (!nav.contains(e.target)) nav.classList.remove('is-open');
+});
+</script>
+</body>
+</html>

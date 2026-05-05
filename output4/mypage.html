@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マイページ — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.tab-content { display: none; }
+.tab-content.is-active { display: block; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="mypage.html" class="header-icon-btn" aria-label="お気に入り" style="color:var(--color-accent);"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg></a>
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg><span class="badge">2</span></a>
+      <button class="header-icon-btn hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav"><div class="mobile-nav__backdrop" onclick="this.closest('.mobile-nav').classList.remove('is-open')"></div><div class="mobile-nav__panel"><button class="mobile-nav__close" onclick="document.getElementById('mobileNav').classList.remove('is-open')" aria-label="閉じる"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button><a href="products.html" class="mobile-nav__link">商品一覧</a><a href="taste-quiz.html" class="mobile-nav__link">テイスト診断</a><a href="breweries.html" class="mobile-nav__link">ブルワリー</a><a href="mypage.html" class="mobile-nav__link">マイページ</a></div></div>
+
+<main>
+  <div class="container" style="padding-block: 40px 80px;">
+
+    <!-- Page Header -->
+    <div style="margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--color-border-light);">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--color-accent),var(--color-accent-dark));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;">田</div>
+        <div>
+          <h1 style="font-size:22px;font-weight:700;margin-bottom:2px;">田中 雅子 さん</h1>
+          <p style="font-size:13px;color:var(--color-text-muted);">tanaka.masako@example.com &ensp;·&ensp; 会員登録日：2025年11月15日</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mypage-layout">
+      <!-- Side Navigation -->
+      <nav class="mypage-nav" aria-label="マイページナビ">
+        <a href="#" class="mypage-nav-link is-active" onclick="switchTab('orders',this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+          注文履歴
+        </a>
+        <a href="#" class="mypage-nav-link" onclick="switchTab('favorites',this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          お気に入り
+        </a>
+        <a href="#" class="mypage-nav-link" onclick="switchTab('profile',this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          登録情報の編集
+        </a>
+        <a href="login.html" class="mypage-nav-link" style="margin-top:12px;color:var(--color-text-muted);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/></svg>
+          ログアウト
+        </a>
+      </nav>
+
+      <!-- Content -->
+      <div>
+
+        <!-- Orders Tab -->
+        <div class="tab-content is-active" id="tab-orders">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">注文履歴</h2>
+
+          <div class="order-card">
+            <div class="order-card__header">
+              <div>
+                <p class="order-card__id"><strong>HACCO&ndash;20251201&ndash;0042</strong></p>
+                <p style="font-size:13px;color:var(--color-text-muted);margin-top:2px;">2025年12月1日 注文</p>
+              </div>
+              <span class="order-status order-status--processing">配送準備中</span>
+            </div>
+            <div class="order-card__items">
+              <div class="order-item-thumb"></div>
+              <div class="order-item-thumb" style="background:linear-gradient(145deg,#2A1A0E,#5C3015);"></div>
+            </div>
+            <div class="order-card__footer">
+              <p style="font-size:13px;color:var(--color-text-muted);">FUJI IPA ×2、北の大地スタウト ×1</p>
+              <p class="order-card__total">¥2,210<span>（税込）</span></p>
+            </div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border-light);display:flex;justify-content:flex-end;">
+              <a href="#" class="btn btn--sm btn--outline-accent">詳細を見る</a>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <div class="order-card__header">
+              <div>
+                <p class="order-card__id"><strong>HACCO&ndash;20251115&ndash;0018</strong></p>
+                <p style="font-size:13px;color:var(--color-text-muted);margin-top:2px;">2025年11月15日 注文</p>
+              </div>
+              <span class="order-status order-status--shipped">配送完了</span>
+            </div>
+            <div class="order-card__items">
+              <div class="order-item-thumb" style="background:linear-gradient(145deg,#D4956A,#8A4020);"></div>
+              <div class="order-item-thumb" style="background:linear-gradient(145deg,#B5D4A0,#5A8840);"></div>
+              <div class="order-item-thumb" style="background:linear-gradient(145deg,#A0C0D8,#405880);"></div>
+            </div>
+            <div class="order-card__footer">
+              <p style="font-size:13px;color:var(--color-text-muted);">京の黄昏 ×1、Alpine Weizen ×1、他1点</p>
+              <p class="order-card__total">¥2,070<span>（税込）</span></p>
+            </div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border-light);display:flex;justify-content:space-between;align-items:center;">
+              <a href="products.html" class="btn btn--ghost" style="font-size:13px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                再注文する
+              </a>
+              <a href="#" class="btn btn--sm btn--outline-accent">詳細を見る</a>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <div class="order-card__header">
+              <div>
+                <p class="order-card__id"><strong>HACCO&ndash;20251025&ndash;0007</strong></p>
+                <p style="font-size:13px;color:var(--color-text-muted);margin-top:2px;">2025年10月25日 注文</p>
+              </div>
+              <span class="order-status order-status--shipped">配送完了</span>
+            </div>
+            <div class="order-card__items">
+              <div class="order-item-thumb" style="background:linear-gradient(145deg,#E0D09A,#BFA040);"></div>
+            </div>
+            <div class="order-card__footer">
+              <p style="font-size:13px;color:var(--color-text-muted);">夏霞 ヴァイツェン ×3</p>
+              <p class="order-card__total">¥1,860<span>（税込）</span></p>
+            </div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border-light);display:flex;justify-content:flex-end;">
+              <a href="#" class="btn btn--sm btn--outline-accent">詳細を見る</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites Tab -->
+        <div class="tab-content" id="tab-favorites">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">お気に入り</h2>
+          <div class="product-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));">
+            <article class="product-card">
+              <a href="product-detail.html"><div class="product-card__img" style="background:linear-gradient(145deg,#2A1A0E,#5C3015);"></div></a>
+              <button class="product-card__fav is-active" aria-label="お気に入りから削除"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg></button>
+              <div class="product-card__body"><p class="product-card__brewery">北海道ビール工房</p><h3 class="product-card__name"><a href="product-detail.html">北の大地 スタウト</a></h3><div class="product-card__tags"><span class="tag tag--taste">濃厚</span><span class="tag tag--style">スタウト</span></div><p class="product-card__price">¥850<span> 税込</span></p></div>
+            </article>
+            <article class="product-card">
+              <a href="product-detail.html"><div class="product-card__img" style="background:linear-gradient(145deg,#E8C56A,#C47220);"></div></a>
+              <button class="product-card__fav is-active" aria-label="お気に入りから削除"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg></button>
+              <div class="product-card__body"><p class="product-card__brewery">富士山醸造所</p><h3 class="product-card__name"><a href="product-detail.html">FUJI IPA</a></h3><div class="product-card__tags"><span class="tag tag--taste">フルーティ</span><span class="tag tag--style">IPA</span></div><p class="product-card__price">¥680<span> 税込</span></p></div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="tab-content" id="tab-profile">
+          <h2 style="font-size:20px;font-weight:700;margin-bottom:24px;">登録情報の編集</h2>
+          <form onsubmit="e => e.preventDefault()" style="display:flex;flex-direction:column;gap:20px;max-width:480px;">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label" for="editLast">姓</label><input class="form-input" id="editLast" type="text" value="田中"></div>
+              <div class="form-group"><label class="form-label" for="editFirst">名</label><input class="form-input" id="editFirst" type="text" value="雅子"></div>
+            </div>
+            <div class="form-group"><label class="form-label" for="editEmail">メールアドレス</label><input class="form-input" id="editEmail" type="email" value="tanaka.masako@example.com"></div>
+            <div class="form-group"><label class="form-label" for="editZip">郵便番号</label><input class="form-input" id="editZip" type="text" value="150-0001" style="max-width:180px;"></div>
+            <div class="form-group"><label class="form-label" for="editAddr">住所</label><input class="form-input" id="editAddr" type="text" value="東京都渋谷区神南1-2-3 パレスビル 402号"></div>
+            <div class="form-group"><label class="form-label" for="editTel">電話番号</label><input class="form-input" id="editTel" type="tel" value="090-1234-5678" style="max-width:220px;"></div>
+            <div>
+              <button type="submit" class="btn btn--primary">変更を保存する</button>
+            </div>
+          </form>
+          <div style="margin-top:40px;padding-top:28px;border-top:1px solid var(--color-border-light);">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">パスワードの変更</h3>
+            <form onsubmit="e => e.preventDefault()" style="display:flex;flex-direction:column;gap:16px;max-width:360px;">
+              <div class="form-group"><label class="form-label" for="pwCurrent">現在のパスワード</label><input class="form-input" id="pwCurrent" type="password" placeholder="••••••••"></div>
+              <div class="form-group"><label class="form-label" for="pwNew">新しいパスワード</label><input class="form-input" id="pwNew" type="password" placeholder="8文字以上"></div>
+              <div class="form-group"><label class="form-label" for="pwConfirm">新しいパスワード（確認）</label><input class="form-input" id="pwConfirm" type="password" placeholder="もう一度入力"></div>
+              <div><button type="submit" class="btn btn--secondary">パスワードを変更する</button></div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid"><div class="footer-brand"><div class="site-logo">HACC<span>O</span></div><p>全国のクラフトビールブルワリーと消費者をつなぐECプラットフォーム。</p></div><div class="footer-col"><h4>サービス</h4><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー紹介</a></div><div class="footer-col"><h4>会社情報</h4><a href="#">特定商取引法</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a></div></div>
+    <div class="footer-bottom"><span>&copy;&nbsp;2025 HACCO Inc.</span><span class="license-badge">酒類販売業免許 東京都知事 第12345号</span></div>
+  </div>
+</footer>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">チェックアウト</a><a href="order-complete.html">注文完了</a><a href="taste-quiz.html">テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">ログイン</a><a href="register.html">会員登録</a><a href="mypage.html">🔵 マイページ</a></div>
+</div>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('is-active'));
+  document.getElementById('tab-' + name).classList.add('is-active');
+  document.querySelectorAll('.mypage-nav-link').forEach(l => l.classList.remove('is-active'));
+  el.classList.add('is-active');
+}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('protoNav');
+  if (!nav.contains(e.target)) nav.classList.remove('is-open');
+});
+</script>
+</body>
+</html>

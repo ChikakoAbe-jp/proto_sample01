@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe *)",
+      "Bash(dir /b \"C:\\\\Users\\\\oyako\\\\Documents\\\\★仕事\\\\JVIT\\\\Claude\\\\260504claudedesign\")"
+    ]
+  }
+}

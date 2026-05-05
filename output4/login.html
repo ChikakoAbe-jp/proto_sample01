@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ログイン — HACCO</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.auth-layout { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 64px); }
+.auth-panel { padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
+.auth-visual { background: linear-gradient(160deg, #1A0E06 0%, #5C3D1A 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 48px; position: relative; overflow: hidden; }
+.auth-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 60% 30%, rgba(191,123,46,0.25) 0%, transparent 60%); }
+.auth-form { max-width: 380px; width: 100%; margin: 0 auto; }
+@media (max-width: 767px) { .auth-layout { grid-template-columns: 1fr; } .auth-visual { display: none; } .auth-panel { padding: 40px 24px; min-height: calc(100vh - 56px); } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav"><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a></nav>
+    <div class="header-actions">
+      <a href="cart.html" class="header-icon-btn" aria-label="カート"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg><span class="badge">2</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="auth-layout">
+    <!-- Form Panel -->
+    <div class="auth-panel">
+      <div class="auth-form">
+        <div style="margin-bottom:36px;">
+          <p style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:8px;">Member Login</p>
+          <h1 style="font-size:28px;font-weight:700;">ログイン</h1>
+        </div>
+
+        <form onsubmit="handleLogin(event)" novalidate>
+          <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:24px;">
+            <div class="form-group">
+              <label class="form-label" for="email">メールアドレス <span>*</span></label>
+              <input class="form-input" id="email" type="email" placeholder="hacco@example.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="password">パスワード <span>*</span></label>
+              <div style="position:relative;">
+                <input class="form-input" id="password" type="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:48px;">
+                <button type="button" onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);padding:4px;" aria-label="パスワードを表示" id="pwToggle">
+                  <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </button>
+              </div>
+              <div style="text-align:right;margin-top:6px;">
+                <a href="#" style="font-size:13px;color:var(--color-accent);">パスワードをお忘れの方</a>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full btn--lg">ログイン</button>
+        </form>
+
+        <div style="margin-top:28px;padding-top:28px;border-top:1px solid var(--color-border-light);text-align:center;">
+          <p style="font-size:14px;color:var(--color-text-muted);">
+            アカウントをお持ちでない方は
+            <a href="register.html" style="color:var(--color-accent);font-weight:600;text-decoration:underline;text-underline-offset:2px;">新規会員登録</a>
+          </p>
+        </div>
+
+        <div style="margin-top:20px;text-align:center;">
+          <a href="index.html" style="font-size:13px;color:var(--color-text-muted);">ゲストとして続ける</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Panel -->
+    <div class="auth-visual">
+      <div style="position:relative;z-index:1;">
+        <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(191,123,46,0.8);margin-bottom:12px;">Member Benefits</p>
+        <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:20px;">会員になると<br>もっと楽しくなる</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(191,123,46,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BF7B2E" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+            </div>
+            <div><p style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">お気に入り機能</p><p style="font-size:13px;color:rgba(246,243,237,0.6);line-height:1.5;">気になったビールをいつでも保存</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(191,123,46,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BF7B2E" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+            </div>
+            <div><p style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">注文履歴の確認</p><p style="font-size:13px;color:rgba(246,243,237,0.6);line-height:1.5;">過去の注文をいつでも確認・再注文</p></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="width:32px;height:32px;border-radius:50%;background:rgba(191,123,46,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BF7B2E" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
+            </div>
+            <div><p style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;">新着・特集のお知らせ</p><p style="font-size:13px;color:rgba(246,243,237,0.6);line-height:1.5;">限定ビールの情報をメールでお届け</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="proto-nav" id="protoNav">
+  <button class="proto-nav__toggle" onclick="this.closest('.proto-nav').classList.toggle('is-open')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>Prototype</button>
+  <div class="proto-nav__list"><a href="index.html">トップページ</a><a href="products.html">商品一覧</a><a href="product-detail.html">商品詳細</a><a href="cart.html">カート</a><a href="checkout.html">チェックアウト</a><a href="order-complete.html">注文完了</a><a href="taste-quiz.html">テイスト診断</a><a href="taste-result.html">診断結果</a><a href="breweries.html">ブルワリー一覧</a><a href="login.html">🔵 ログイン</a><a href="register.html">会員登録</a><a href="mypage.html">マイページ</a></div>
+</div>
+
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  window.location.href = 'mypage.html';
+}
+function togglePw() {
+  const pw = document.getElementById('password');
+  pw.type = pw.type === 'password' ? 'text' : 'password';
+}
+document.addEventListener('click', function(e) {
+  const nav = document.getElementById('protoNav');
+  if (!nav.contains(e.target)) nav.classList.remove('is-open');
+});
+</script>
+</body>
+</html>

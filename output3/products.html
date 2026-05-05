@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品一覧 — HACCO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .products-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .products-layout { grid-template-columns: 1fr; }
+      .filter-sidebar { display: none; }
+      .filter-sidebar.open { display: block; }
+    }
+
+    /* フィルターサイドバー */
+    .filter-sidebar {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+    }
+    .filter-section {
+      margin-bottom: 28px;
+    }
+    .filter-section:last-of-type { margin-bottom: 0; }
+    .filter-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--color-text);
+    }
+    .filter-option input {
+      accent-color: var(--color-primary);
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+    .filter-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+    .filter-reset {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-top: 4px;
+    }
+    .filter-reset:hover { color: var(--color-primary); }
+
+    /* ソートバー */
+    .sort-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .sort-bar-left {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+    .sort-bar-left strong {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+    .sort-select {
+      padding: 8px 32px 8px 14px;
+      height: auto;
+      font-size: 13px;
+      width: auto;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a6554' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    /* モバイルフィルターボタン */
+    .filter-toggle-btn {
+      display: none;
+    }
+    @media (max-width: 900px) {
+      .filter-toggle-btn {
+        display: inline-flex;
+        margin-bottom: 16px;
+      }
+    }
+
+    /* ページネーション */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      margin-top: 48px;
+    }
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .page-btn:hover { border-color: var(--color-border); color: var(--color-text); }
+    .page-btn.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">HACC<span>O</span></a>
+    <nav class="header-nav">
+      <a href="products.html" class="active">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <button class="header-icon-btn" aria-label="お気に入り">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button class="header-icon-btn" aria-label="カート">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <a href="login.html" class="btn btn-secondary btn-sm">ログイン</a>
+    </div>
+    <button class="hamburger-btn" aria-label="メニューを開く"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- メインコンテンツ -->
+<main>
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">トップ</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>商品一覧</span>
+      </div>
+      <h1>商品一覧</h1>
+    </div>
+  </div>
+
+  <div class="container" style="padding-bottom: 80px;">
+
+    <!-- モバイル フィルターボタン -->
+    <button class="btn btn-outline filter-toggle-btn" onclick="document.querySelector('.filter-sidebar').classList.toggle('open')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      絞り込む
+    </button>
+
+    <div class="products-layout">
+      <!-- フィルターサイドバー -->
+      <aside class="filter-sidebar">
+        <div class="filter-section">
+          <p class="filter-title">テイスト</p>
+          <label class="filter-option"><input type="checkbox" checked> フルーティ <span class="filter-count">24</span></label>
+          <label class="filter-option"><input type="checkbox"> 苦め <span class="filter-count">31</span></label>
+          <label class="filter-option"><input type="checkbox"> 軽め <span class="filter-count">18</span></label>
+          <label class="filter-option"><input type="checkbox"> 濃厚 <span class="filter-count">15</span></label>
+          <label class="filter-option"><input type="checkbox"> すっきり <span class="filter-count">22</span></label>
+        </div>
+
+        <hr class="divider">
+
+        <div class="filter-section">
+          <p class="filter-title">スタイル</p>
+          <label class="filter-option"><input type="checkbox"> IPA <span class="filter-count">42</span></label>
+          <label class="filter-option"><input type="checkbox" checked> ペールエール <span class="filter-count">28</span></label>
+          <label class="filter-option"><input type="checkbox"> スタウト <span class="filter-count">12</span></label>
+          <label class="filter-option"><input type="checkbox"> ラガー <span class="filter-count">19</span></label>
+          <label class="filter-option"><input type="checkbox"> ヴァイツェン <span class="filter-count">9</span></label>
+          <label class="filter-option"><input type="checkbox"> その他 <span class="filter-count">14</span></label>
+        </div>
+
+        <hr class="divider">
+
+        <div class="filter-section">
+          <p class="filter-title">ブルワリー</p>
+          <label class="filter-option"><input type="checkbox"> 富士山麓醸造所 <span class="filter-count">8</span></label>
+          <label class="filter-option"><input type="checkbox"> 北海道麦酒醸造 <span class="filter-count">12</span></label>
+          <label class="filter-option"><input type="checkbox"> 京都クラフトブリュー <span class="filter-count">7</span></label>
+          <label class="filter-option"><input type="checkbox"> 海風ブルワリー <span class="filter-count">9</span></label>
+          <label class="filter-option"><input type="checkbox"> 信州山の湧水醸造 <span class="filter-count">6</span></label>
+        </div>
+
+        <hr class="divider">
+
+        <div class="filter-section">
+          <p class="filter-title">価格帯</p>
+          <label class="filter-option"><input type="radio" name="price"> 〜1,000円</label>
+          <label class="filter-option"><input type="radio" name="price" checked> 1,000〜2,000円</label>
+          <label class="filter-option"><input type="radio" name="price"> 2,000円〜</label>
+        </div>
+
+        <button class="filter-reset">条件をリセット</button>
+      </aside>
+
+      <!-- 商品グリッドエリア -->
+      <div>
+        <!-- ソートバー -->
+        <div class="sort-bar">
+          <p class="sort-bar-left"><strong>52</strong>件の商品</p>
+          <select class="form-select sort-select" aria-label="並び替え">
+            <option>新着順</option>
+            <option>価格が安い順</option>
+            <option>価格が高い順</option>
+            <option>人気順</option>
+          </select>
+        </div>
+
+        <!-- 商品グリッド -->
+        <div class="product-grid">
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/f4efe7/c4832a?text=IPA" alt="富士フルーティIPA" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">富士山麓醸造所</p>
+              <h3 class="product-card__name"><a href="product-detail.html">富士フルーティIPA</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span><span class="tag tag-navy">IPA</span></div>
+              <p class="product-card__price">¥680 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/e8eef9/1350b2?text=White+Ale" alt="北海道ホワイトエール" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">北海道麦酒醸造</p>
+              <h3 class="product-card__name"><a href="product-detail.html">北海道ホワイトエール</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">すっきり</span><span class="tag tag-neutral">ヴァイツェン</span></div>
+              <p class="product-card__price">¥750 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/fdf4e8/c4832a?text=Yuzu" alt="京の薫り柚子ビール" class="product-card__img"></a>
+            <button class="product-card__fav active" aria-label="お気に入りから削除"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">京都クラフトブリュー</p>
+              <h3 class="product-card__name"><a href="product-detail.html">京の薫り柚子ビール</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span><span class="tag tag-neutral">ペールエール</span></div>
+              <p class="product-card__price">¥820 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/f0ede8/7a6554?text=Session+IPA" alt="海風セッションIPA" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">海風ブルワリー</p>
+              <h3 class="product-card__name"><a href="product-detail.html">海風セッションIPA</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">軽め</span><span class="tag tag-navy">IPA</span></div>
+              <p class="product-card__price">¥650 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/eef2f9/7a9cc4?text=Summer+Lager" alt="信州サマーラガー" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">信州山の湧水醸造</p>
+              <h3 class="product-card__name"><a href="product-detail.html">信州サマーラガー</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">すっきり</span><span class="tag tag-neutral">ラガー</span></div>
+              <p class="product-card__price">¥600 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/f8f0e4/c4832a?text=Lemon+Ale" alt="瀬戸内レモンエール" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">瀬戸内ブルーイング</p>
+              <h3 class="product-card__name"><a href="product-detail.html">瀬戸内レモンエール</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span><span class="tag tag-neutral">ペールエール</span></div>
+              <p class="product-card__price">¥720 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/2c2018/f9f5ef?text=Stout" alt="仙台夜の深みスタウト" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">東北クラフト</p>
+              <h3 class="product-card__name"><a href="product-detail.html">仙台夜の深みスタウト</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">濃厚</span><span class="tag tag-neutral">スタウト</span></div>
+              <p class="product-card__price">¥780 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/e8f4e8/2a7a4b?text=Tropical+Ale" alt="宮古島トロピカルエール" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">琉球ブルワリー</p>
+              <h3 class="product-card__name"><a href="product-detail.html">宮古島トロピカルエール</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">フルーティ</span><span class="tag tag-neutral">ペールエール</span></div>
+              <p class="product-card__price">¥850 <small>税込</small></p>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a href="product-detail.html"><img src="https://placehold.co/400x400/f4efe7/c4832a?text=Double+IPA" alt="富士山頂ダブルIPA" class="product-card__img"></a>
+            <button class="product-card__fav" aria-label="お気に入りに追加"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+            <div class="product-card__body">
+              <p class="product-card__brewery">富士山麓醸造所</p>
+              <h3 class="product-card__name"><a href="product-detail.html">富士山頂ダブルIPA</a></h3>
+              <div class="product-card__tags"><span class="tag tag-amber">苦め</span><span class="tag tag-navy">IPA</span></div>
+              <p class="product-card__price">¥920 <small>税込</small></p>
+            </div>
+          </article>
+        </div>
+
+        <!-- ページネーション -->
+        <nav class="pagination" aria-label="ページナビゲーション">
+          <button class="page-btn" aria-label="前のページ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span style="padding: 0 4px; color: var(--color-text-muted); font-size: 13px;">...</span>
+          <button class="page-btn">6</button>
+          <button class="page-btn" aria-label="次のページ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">HACC<span>O</span></div>
+    <p class="footer-tagline">全国のブルワリーと、あなたの食卓をつなぐ。</p>
+    <nav class="footer-links">
+      <a href="#">会社概要</a><a href="#">特定商取引法に基づく表記</a>
+      <a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a>
+    </nav>
+    <div class="footer-bottom">
+      <p class="footer-license">酒類販売業免許 東京都知事第 0001-2025 号</p>
+      <p class="footer-copy">&copy; 2025 HACCO Inc.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Prototype Nav -->
+<nav class="proto-nav">
+  <div class="proto-nav-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span>Prototype Nav</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="proto-nav-list">
+    <a href="index.html">トップページ</a>
+    <a href="products.html">★ 商品一覧</a>
+    <a href="product-detail.html">商品詳細</a>
+    <a href="cart.html">カート</a>
+    <a href="checkout.html">チェックアウト</a>
+    <a href="order-complete.html">注文完了</a>
+    <a href="taste-quiz.html">テイスト診断</a>
+    <a href="taste-result.html">診断結果</a>
+    <a href="breweries.html">ブルワリー一覧</a>
+    <a href="login.html">ログイン</a>
+    <a href="register.html">会員登録</a>
+    <a href="mypage.html">マイページ</a>
+  </div>
+</nav>
+</body>
+</html>
