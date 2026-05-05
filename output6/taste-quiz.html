@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>テイスト診断 — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .quiz-page {
+      min-height: calc(100vh - var(--header-h));
+      padding: 64px 24px;
+    }
+
+    .quiz-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .quiz-header .label {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .quiz-header h1 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 40px;
+      font-weight: 400;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    .quiz-header p {
+      font-size: 15px;
+      color: var(--color-text-muted);
+    }
+
+    .quiz-progress-area {
+      margin-bottom: 48px;
+    }
+
+    .quiz-progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .quiz-step-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-accent);
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-q-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.4;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .quiz-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 28px 20px;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .quiz-option:hover {
+      border-color: var(--color-accent);
+      background: rgba(184,92,26,0.04);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--color-accent);
+      background: rgba(184,92,26,0.08);
+    }
+
+    .quiz-option-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--color-surface-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+    }
+
+    .quiz-option-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .quiz-option-sub {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .quiz-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: var(--transition);
+    }
+
+    .quiz-back-btn:hover { color: var(--color-primary); }
+
+    @media (max-width: 480px) {
+      .quiz-options { grid-template-columns: 1fr; }
+      .quiz-header h1 { font-size: 28px; }
+      .quiz-q-title { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">HACCO</a>
+    <nav class="header-nav">
+      <a href="products.html">商品一覧</a>
+      <a href="taste-quiz.html" class="active">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="action-btn cart-btn" aria-label="カート">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+        <span class="cart-badge">2</span>
+      </a>
+      <a href="login.html" class="btn btn-outline btn-sm">ログイン</a>
+    </div>
+  </div>
+</header>
+
+<div class="quiz-page">
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <span class="label">Taste Finder</span>
+      <h1>テイスト診断</h1>
+      <p>4つの質問に答えるだけで、あなたにぴったりのビールスタイルがわかります。</p>
+    </div>
+
+    <!-- Q1 shown, others hidden -->
+    <div id="quizContent">
+      <div class="quiz-progress-area">
+        <div class="quiz-progress-top">
+          <span class="quiz-step-label">Q1 / 4</span>
+          <span style="font-size:12px;color:var(--color-text-muted);">25%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width:25%;"></div>
+        </div>
+      </div>
+
+      <div class="quiz-q-title" id="questionText">
+        どんな飲み口が好きですか？
+      </div>
+
+      <div class="quiz-options" id="quizOptions">
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="quiz-option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+          </div>
+          <div class="quiz-option-title">すっきり爽快</div>
+          <div class="quiz-option-sub">のどごしが良く、軽やかな飲み口</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="quiz-option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          </div>
+          <div class="quiz-option-title">深みのある濃厚</div>
+          <div class="quiz-option-sub">しっかりとしたコクと余韻</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="quiz-option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+          </div>
+          <div class="quiz-option-title">フルーティな香り</div>
+          <div class="quiz-option-sub">果実のような華やかなアロマ</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="quiz-option-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+          </div>
+          <div class="quiz-option-title">ビターな苦み</div>
+          <div class="quiz-option-sub">大人な苦みとホップの個性</div>
+        </div>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="quiz-back-btn" id="backBtn" style="visibility:hidden;" onclick="prevQuestion()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+          前の質問へ
+        </button>
+        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+          次の質問へ
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  const questions = [
+    {
+      q: "どんな飲み口が好きですか？",
+      options: [
+        { icon: "sun", title: "すっきり爽快", sub: "のどごしが良く、軽やかな飲み口" },
+        { icon: "star", title: "深みのある濃厚", sub: "しっかりとしたコクと余韻" },
+        { icon: "circle", title: "フルーティな香り", sub: "果実のような華やかなアロマ" },
+        { icon: "bolt", title: "ビターな苦み", sub: "大人な苦みとホップの個性" },
+      ]
+    },
+    {
+      q: "どんな場面で飲みたいですか？",
+      options: [
+        { title: "仕事上がりに一杯", sub: "手軽にリフレッシュしたい" },
+        { title: "食事と一緒に", sub: "料理と合わせてじっくり楽しみたい" },
+        { title: "休日にゆっくりと", sub: "じっくり味わいたい特別な一本" },
+        { title: "ギフトに贈りたい", sub: "大切な人への特別な選択" },
+      ]
+    },
+    {
+      q: "普段好きなお酒のタイプは？",
+      options: [
+        { title: "ラガー・ピルスナー", sub: "定番ビールが好き" },
+        { title: "ワイン・シャンパン", sub: "複雑な香りが好き" },
+        { title: "ウイスキー・バーボン", sub: "コクと深みが好き" },
+        { title: "チューハイ・サワー", sub: "飲みやすいものが好き" },
+      ]
+    },
+    {
+      q: "苦みはどの程度が好みですか？",
+      options: [
+        { title: "苦みは苦手", sub: "できる限り苦みを感じたくない" },
+        { title: "少し感じる程度", sub: "ほんのり苦みがあるくらいが好き" },
+        { title: "適度な苦み", sub: "バランスの取れた苦みがちょうどいい" },
+        { title: "苦いのが好き", sub: "ホップの個性豊かな苦みが好き" },
+      ]
+    },
+  ];
+
+  let currentQ = 0;
+
+  function renderQuestion() {
+    const q = questions[currentQ];
+    document.querySelector('.quiz-step-label').textContent = `Q${currentQ + 1} / ${questions.length}`;
+    document.querySelector('[style*="25%"]').textContent = `${Math.round((currentQ + 1) / questions.length * 100)}%`;
+    document.getElementById('progressFill').style.width = `${(currentQ + 1) / questions.length * 100}%`;
+    document.getElementById('questionText').textContent = q.q;
+
+    const opts = document.getElementById('quizOptions');
+    opts.innerHTML = q.options.map(o => `
+      <div class="quiz-option" onclick="selectOption(this)">
+        <div class="quiz-option-title">${o.title}</div>
+        <div class="quiz-option-sub">${o.sub}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('backBtn').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+    const btn = document.getElementById('nextBtn');
+    btn.textContent = currentQ < questions.length - 1 ? '次の質問へ →' : '診断結果を見る';
+    if (currentQ === questions.length - 1) {
+      btn.onclick = () => { window.location.href = 'taste-result.html'; };
+    } else {
+      btn.onclick = nextQuestion;
+    }
+  }
+
+  function selectOption(el) {
+    document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function nextQuestion() {
+    if (currentQ < questions.length - 1) {
+      currentQ++;
+      renderQuestion();
+    }
+  }
+
+  function prevQuestion() {
+    if (currentQ > 0) {
+      currentQ--;
+      renderQuestion();
+    }
+  }
+</script>
+</body>
+</html>

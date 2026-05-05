@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注文完了 — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .complete-page {
+      min-height: calc(100vh - var(--header-h));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+    }
+
+    .complete-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 64px 56px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+
+    .complete-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(184,92,26,0.1);
+      border: 2px solid rgba(184,92,26,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      color: var(--color-accent);
+      animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .complete-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    .complete-sub {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .order-number-box {
+      background: var(--color-surface-warm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+
+    .order-number-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+
+    .order-number {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .email-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 40px;
+    }
+
+    .complete-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .complete-card { padding: 40px 24px; }
+      .complete-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">HACCO</a>
+  </div>
+</header>
+
+<div class="complete-page">
+  <div class="complete-card">
+    <div class="complete-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+
+    <h1 class="complete-title">Thank you!</h1>
+    <p style="font-size:22px;font-weight:700;color:var(--color-primary);margin-bottom:12px;">ご注文ありがとうございます</p>
+    <p class="complete-sub">
+      ご注文の確認が取れました。<br>
+      商品の準備ができ次第、発送いたします。
+    </p>
+
+    <div class="order-number-box">
+      <div class="order-number-label">注文番号</div>
+      <div class="order-number">HACCO-2025-78432</div>
+    </div>
+
+    <div class="email-notice">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      </svg>
+      確認メールを送信しました
+    </div>
+
+    <div class="complete-actions">
+      <a href="index.html" class="btn btn-primary btn-lg">トップへ戻る</a>
+      <a href="mypage.html" class="btn btn-secondary">注文履歴を見る</a>
+    </div>
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+</body>
+</html>

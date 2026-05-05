@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カート — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .cart-item-img {
+      width: 96px;
+      height: 96px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+    }
+
+    .cart-item-brewery {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .cart-item-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .cart-item-price {
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    .cart-item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .cart-item-subtotal {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .cart-item-delete {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+      font-family: var(--font-body);
+      padding: 0;
+    }
+
+    .cart-item-delete:hover { color: #C0392B; }
+
+    /* Gift options */
+    .gift-options {
+      margin-top: 32px;
+      padding: 24px;
+      background: var(--color-surface-warm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+    }
+
+    .gift-options-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gift-option-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .gift-option-item:last-child { border-bottom: none; }
+
+    .gift-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .gift-label input { margin-top: 3px; accent-color: var(--color-accent); flex-shrink: 0; }
+
+    .gift-label-text h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .gift-label-text p {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .noshi-input-area {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+    }
+
+    .noshi-input-area.show { display: block; }
+
+    /* Right sidebar */
+    .cart-sidebar { position: sticky; top: calc(var(--header-h) + 24px); }
+
+    .cart-sidebar-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 28px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .free-shipping-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-accent);
+      background: rgba(184,92,26,0.08);
+      border: 1px solid rgba(184,92,26,0.2);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .cart-sidebar { position: static; }
+      .cart-item { grid-template-columns: 72px 1fr; gap: 12px; }
+      .cart-item-actions { flex-direction: row; align-items: center; justify-content: space-between; grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">HACCO</a>
+    <nav class="header-nav">
+      <a href="products.html">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <a href="mypage.html" class="action-btn" aria-label="お気に入り">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+      </a>
+      <a href="cart.html" class="action-btn cart-btn" aria-label="カート">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+        <span class="cart-badge">2</span>
+      </a>
+      <a href="login.html" class="btn btn-outline btn-sm">ログイン</a>
+    </div>
+    <button class="hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('open');document.body.style.overflow='hidden'">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="document.getElementById('mobileNav').classList.remove('open');document.body.style.overflow=''">×</button>
+  <a href="index.html">ホーム</a><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html">ブルワリー</a>
+</div>
+
+<main>
+  <div class="container" style="padding-top:40px;padding-bottom:80px;">
+    <nav class="breadcrumb">
+      <a href="index.html">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">カート</span>
+    </nav>
+
+    <h1 style="margin-bottom:40px;">カート <span style="font-size:18px;font-weight:400;color:var(--color-text-muted);margin-left:8px;">（2件）</span></h1>
+
+    <div class="cart-layout">
+      <div>
+        <!-- Cart items -->
+        <div class="cart-item">
+          <img src="https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?w=200&h=200&fit=crop&auto=format" alt="湘南ゴールデンエール" class="cart-item-img" loading="lazy">
+          <div>
+            <div class="cart-item-brewery">湘南ビール</div>
+            <div class="cart-item-name">湘南ゴールデンエール</div>
+            <div class="cart-item-price">¥680（税込）</div>
+            <div style="margin-top:12px;">
+              <div class="qty-selector">
+                <button class="qty-btn" onclick="updateCart(this, -1)" aria-label="減らす">−</button>
+                <input class="qty-input" type="number" value="2" min="1" max="24" style="width:40px;" aria-label="数量">
+                <button class="qty-btn" onclick="updateCart(this, 1)" aria-label="増やす">＋</button>
+              </div>
+            </div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="cart-item-subtotal">¥1,360</div>
+            <button class="cart-item-delete" onclick="removeItem(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              削除
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-item">
+          <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?w=200&h=200&fit=crop&auto=format" alt="奥多摩ダークスタウト" class="cart-item-img" loading="lazy">
+          <div>
+            <div class="cart-item-brewery">奥多摩クラフト</div>
+            <div class="cart-item-name">奥多摩ダークスタウト</div>
+            <div class="cart-item-price">¥820（税込）</div>
+            <div style="margin-top:12px;">
+              <div class="qty-selector">
+                <button class="qty-btn" onclick="updateCart(this, -1)" aria-label="減らす">−</button>
+                <input class="qty-input" type="number" value="1" min="1" max="24" style="width:40px;" aria-label="数量">
+                <button class="qty-btn" onclick="updateCart(this, 1)" aria-label="増やす">＋</button>
+              </div>
+            </div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="cart-item-subtotal">¥820</div>
+            <button class="cart-item-delete" onclick="removeItem(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              削除
+            </button>
+          </div>
+        </div>
+
+        <!-- Gift options -->
+        <div class="gift-options">
+          <div class="gift-options-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1012 10.125 2.625 2.625 0 0012 4.875zM21 3.75H3c-.621 0-1.125.504-1.125 1.125v3.375c0 .621.504 1.125 1.125 1.125H21c.621 0 1.125-.504 1.125-1.125V4.875C21.125 4.254 20.621 3.75 21 3.75z" /></svg>
+            ギフトオプション
+          </div>
+
+          <div class="gift-option-item">
+            <label class="gift-label">
+              <input type="checkbox" id="giftWrap" onchange="toggleNoshi()">
+              <div class="gift-label-text">
+                <h4>ギフトラッピング <span style="font-weight:400;color:var(--color-accent);">+¥500</span></h4>
+                <p>専用ボックス＋リボンでお包みします</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="gift-option-item">
+            <label class="gift-label">
+              <input type="checkbox" id="noshi" onchange="toggleNoshiInput()">
+              <div class="gift-label-text">
+                <h4>熨斗（のし）</h4>
+                <p>ギフトラッピングをお選びの方のみ</p>
+              </div>
+            </label>
+            <div class="noshi-input-area" id="noshiInput">
+              <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">表書き（例：御祝・誕生日御祝）</label>
+                <input type="text" class="form-input" placeholder="御祝" value="">
+              </div>
+              <div class="form-group">
+                <label class="form-label">名前（例：山田 太郎）</label>
+                <input type="text" class="form-input" placeholder="山田 太郎" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary sidebar -->
+      <aside class="cart-sidebar">
+        <div class="cart-sidebar-card">
+          <div class="sidebar-title">注文サマリー</div>
+
+          <div class="order-summary" style="border:none;padding:0;">
+            <div class="order-summary-row">
+              <span>商品小計</span>
+              <span>¥2,180</span>
+            </div>
+            <div class="order-summary-row">
+              <span>送料</span>
+              <span>¥550</span>
+            </div>
+            <div class="order-summary-row" style="border-bottom:none;padding-bottom:0;">
+              <span>ギフトラッピング</span>
+              <span style="color:var(--color-text-muted);">未選択</span>
+            </div>
+          </div>
+
+          <div class="free-shipping-notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+            あと ¥2,820 で送料無料
+          </div>
+
+          <div style="padding-top:16px;border-top:1.5px solid var(--color-border);">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+              <span style="font-size:15px;font-weight:700;">合計（税込）</span>
+              <span style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--color-primary);">¥2,730</span>
+            </div>
+            <div style="font-size:12px;color:var(--color-text-muted);margin-bottom:24px;">送料含む</div>
+            <a href="checkout.html" class="btn btn-primary btn-lg" style="width:100%;display:flex;">購入手続きへ</a>
+            <a href="products.html" class="btn btn-ghost" style="width:100%;margin-top:10px;text-align:center;display:block;">買い物を続ける</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-logo">HACCO</div><p class="footer-tagline">日本のクラフトビールと、出会う。</p></div>
+      <nav class="footer-nav">
+        <a href="#">会社概要</a><a href="#">特定商取引法に基づく表示</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>酒類販売業免許 東京国税局第12345号</span>
+      <span>© 2025 HACCO All Rights Reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  function updateCart(btn, delta) {
+    const input = btn.parentElement.querySelector('.qty-input');
+    const val = parseInt(input.value) + delta;
+    if (val >= 1 && val <= 24) input.value = val;
+  }
+
+  function removeItem(btn) {
+    btn.closest('.cart-item').style.opacity = '0.4';
+    btn.closest('.cart-item').style.pointerEvents = 'none';
+  }
+
+  function toggleNoshi() {
+    const noshi = document.getElementById('noshi');
+    const wrap = document.getElementById('giftWrap');
+    if (!wrap.checked) {
+      noshi.checked = false;
+      document.getElementById('noshiInput').classList.remove('show');
+    }
+  }
+
+  function toggleNoshiInput() {
+    const noshi = document.getElementById('noshi');
+    const wrap = document.getElementById('giftWrap');
+    if (noshi.checked && !wrap.checked) {
+      alert('先にギフトラッピングを選択してください');
+      noshi.checked = false;
+      return;
+    }
+    document.getElementById('noshiInput').classList.toggle('show', noshi.checked);
+  }
+</script>
+</body>
+</html>

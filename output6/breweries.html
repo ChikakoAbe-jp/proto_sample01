@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ブルワリー一覧 — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .brewery-hero {
+      background: var(--color-primary);
+      color: white;
+      padding: 72px 0;
+      text-align: center;
+    }
+
+    .brewery-hero h1 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 56px;
+      font-weight: 400;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .brewery-hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .brewery-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .brewery-stat-item { text-align: center; }
+
+    .brewery-stat-num {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--color-accent-warm);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .brewery-stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.08em;
+    }
+
+    /* Brewery cards */
+    .brewery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .brewery-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      display: block;
+    }
+
+    .brewery-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-border-dark);
+    }
+
+    .brewery-card-header {
+      aspect-ratio: 16/7;
+      background: var(--color-surface-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brewery-card-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brewery-card-header-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,8,2,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brewery-logo-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.05em;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .brewery-card-body {
+      padding: 20px 24px;
+    }
+
+    .brewery-card-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 6px;
+    }
+
+    .brewery-card-location {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+
+    .brewery-card-desc {
+      font-size: 13px;
+      color: var(--color-text);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .brewery-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .brewery-card-count {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .brewery-card-link {
+      font-size: 13px;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent);
+      padding-bottom: 1px;
+      transition: var(--transition);
+    }
+
+    .brewery-card-link:hover { color: var(--color-accent-warm); border-color: var(--color-accent-warm); }
+
+    @media (max-width: 1024px) {
+      .brewery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .brewery-grid { grid-template-columns: 1fr; }
+      .brewery-hero h1 { font-size: 36px; }
+      .brewery-stats { gap: 24px; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">HACCO</a>
+    <nav class="header-nav">
+      <a href="products.html">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html" class="active">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <a href="mypage.html" class="action-btn" aria-label="お気に入り">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+      </a>
+      <a href="cart.html" class="action-btn cart-btn" aria-label="カート">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+        <span class="cart-badge">2</span>
+      </a>
+      <a href="login.html" class="btn btn-outline btn-sm">ログイン</a>
+    </div>
+    <button class="hamburger" aria-label="メニュー" onclick="document.getElementById('mobileNav').classList.add('open');document.body.style.overflow='hidden'">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="document.getElementById('mobileNav').classList.remove('open');document.body.style.overflow=''">×</button>
+  <a href="index.html">ホーム</a><a href="products.html">商品一覧</a><a href="taste-quiz.html">テイスト診断</a><a href="breweries.html" class="active">ブルワリー</a>
+</div>
+
+<!-- Hero -->
+<div class="brewery-hero">
+  <div class="container">
+    <div class="label" style="color:rgba(255,255,255,0.45);margin-bottom:12px;">Our Partners</div>
+    <h1>参加ブルワリー</h1>
+    <p>全国各地の個性豊かな醸造所が、HACCOに集まっています。</p>
+
+    <div class="brewery-stats">
+      <div class="brewery-stat-item">
+        <span class="brewery-stat-num">30</span>
+        <span class="brewery-stat-label">ブルワリー</span>
+      </div>
+      <div class="brewery-stat-item">
+        <span class="brewery-stat-num">200+</span>
+        <span class="brewery-stat-label">取扱商品</span>
+      </div>
+      <div class="brewery-stat-item">
+        <span class="brewery-stat-num">18</span>
+        <span class="brewery-stat-label">都道府県</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Brewery grid -->
+<section class="section">
+  <div class="container">
+    <div class="brewery-grid">
+
+      <!-- Brewery 1 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=800&h=350&fit=crop&auto=format" alt="湘南ビール" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">湘南ビール</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">湘南ビール</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            神奈川県藤沢市 / 1996年創業
+          </div>
+          <p class="brewery-card-desc">湘南の海と風をテーマに醸造。国内屈指の歴史を誇るクラフトブルワリーで、地元食材を活かした個性豊かなビールが揃います。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：12種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Brewery 2 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?w=800&h=350&fit=crop&auto=format" alt="京都醸造" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">京都醸造</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">京都醸造</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            京都府京都市 / 2015年創業
+          </div>
+          <p class="brewery-card-desc">古都の文化に影響を受けた独創的なビールを醸造。ベルギー系スタイルを中心に、京都の職人気質が光る繊細な味わいが特徴。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：8種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Brewery 3 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=350&fit=crop&auto=format" alt="北海道ブルーイング" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">北海道<br>ブルーイング</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">北海道ブルーイング</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            北海道札幌市 / 2018年創業
+          </div>
+          <p class="brewery-card-desc">北海道の清らかな水と大麦を活かし、シャープな苦みのIPAが人気。ホップの香りを最大限に引き出す独自の醸造法が自慢。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：6種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Brewery 4 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?w=800&h=350&fit=crop&auto=format" alt="奥多摩クラフト" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">奥多摩クラフト</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">奥多摩クラフト</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            東京都西多摩郡 / 2010年創業
+          </div>
+          <p class="brewery-card-desc">奥多摩の澄んだ渓流水で仕込む、どっしりとした濃厚なスタウトとポーターが看板商品。山の深みをビールで表現する。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：9種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Brewery 5 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=800&h=350&fit=crop&auto=format" alt="箕面ビール" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">箕面ビール</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">箕面ビール</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            大阪府箕面市 / 1997年創業
+          </div>
+          <p class="brewery-card-desc">柚子・ゆずホップなど日本産素材をふんだんに使ったユニークなビールが人気。地元・箕面の滝にちなんだ豊かな水が醸造の源。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：11種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Brewery 6 -->
+      <a href="products.html" class="brewery-card">
+        <div class="brewery-card-header">
+          <img src="https://images.unsplash.com/photo-1519596040-c52e01ee2f42?w=800&h=350&fit=crop&auto=format" alt="伊勢角屋麦酒" loading="lazy" onerror="this.style.background='var(--color-secondary)';this.src=''">
+          <div class="brewery-card-header-overlay">
+            <div class="brewery-logo-name">伊勢角屋麦酒</div>
+          </div>
+        </div>
+        <div class="brewery-card-body">
+          <div class="brewery-card-name">伊勢角屋麦酒</div>
+          <div class="brewery-card-location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            三重県伊勢市 / 1997年創業
+          </div>
+          <p class="brewery-card-desc">伊勢の老舗餅屋が生んだクラフトブルワリー。伝統と革新を融合した丁寧な醸造が、国内外で高い評価を受けています。</p>
+          <div class="brewery-card-footer">
+            <span class="brewery-card-count">取扱商品：10種</span>
+            <span class="brewery-card-link">ビールを見る</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div><div class="footer-logo">HACCO</div><p class="footer-tagline">日本のクラフトビールと、出会う。</p></div>
+      <nav class="footer-nav">
+        <a href="#">会社概要</a><a href="#">特定商取引法に基づく表示</a><a href="#">プライバシーポリシー</a><a href="#">お問い合わせ</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>酒類販売業免許 東京国税局第12345号</span>
+      <span>© 2025 HACCO All Rights Reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="prototype-badge">Prototype</div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-page {
+      min-height: calc(100vh - var(--header-h));
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .auth-visual {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .auth-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,8,2,0.55);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 56px;
+    }
+
+    .auth-visual-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 36px;
+      font-weight: 400;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .auth-visual-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .auth-form-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 80px;
+      background: var(--color-surface);
+    }
+
+    .auth-form-inner { width: 100%; max-width: 400px; }
+
+    .auth-logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .auth-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .auth-sub {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-bottom: 36px;
+    }
+
+    .auth-form { display: flex; flex-direction: column; gap: 20px; }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 13px;
+      color: var(--color-accent);
+      margin-top: -12px;
+      transition: var(--transition);
+    }
+
+    .forgot-link:hover { color: var(--color-accent-warm); }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--color-text-muted);
+      font-size: 13px;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .auth-register-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-top: 20px;
+    }
+
+    .auth-register-link a {
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent);
+      padding-bottom: 1px;
+      transition: var(--transition);
+    }
+
+    .auth-register-link a:hover { color: var(--color-accent-warm); }
+
+    @media (max-width: 768px) {
+      .auth-page { grid-template-columns: 1fr; }
+      .auth-visual { display: none; }
+      .auth-form-area { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="site-logo">HACCO</a>
+    <nav class="header-nav">
+      <a href="products.html">商品一覧</a>
+      <a href="taste-quiz.html">テイスト診断</a>
+      <a href="breweries.html">ブルワリー</a>
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="action-btn cart-btn" aria-label="カート">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+        <span class="cart-badge">2</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="auth-page">
+  <!-- Visual side -->
+  <div class="auth-visual">
+    <img
+      src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=1200&h=1200&fit=crop&auto=format"
+      alt="クラフトビールの風景"
+      loading="eager"
+      onerror="this.style.background='var(--color-primary)';this.src=''"
+    >
+    <div class="auth-visual-overlay">
+      <div class="auth-visual-quote">ビールのある、<br>豊かな時間を。</div>
+      <p class="auth-visual-sub">会員登録で、お気に入りの管理や注文履歴の確認ができます。</p>
+    </div>
+  </div>
+
+  <!-- Form side -->
+  <div class="auth-form-area">
+    <div class="auth-form-inner">
+      <div class="auth-logo">HACCO</div>
+      <h1 class="auth-title">ログイン</h1>
+      <p class="auth-sub">メールアドレスとパスワードでログインしてください。</p>
+
+      <form class="auth-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="email">メールアドレス</label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            placeholder="your@email.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">パスワード</label>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="パスワードを入力"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <a href="#" class="forgot-link">パスワードを忘れた方</a>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">ログイン</button>
+      </form>
+
+      <div class="auth-divider">または</div>
+
+      <p class="auth-register-link">
+        まだ会員でない方は <a href="register.html">新規会員登録</a>
+      </p>
+
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--color-border);">
+        <p style="font-size:12px;color:var(--color-text-muted);line-height:1.7;text-align:center;">
+          ログインすることで、<a href="#" style="color:var(--color-text-muted);text-decoration:underline;">利用規約</a>および
+          <a href="#" style="color:var(--color-text-muted);text-decoration:underline;">プライバシーポリシー</a>に同意したものとみなします。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  function handleLogin(e) {
+    e.preventDefault();
+    window.location.href = 'mypage.html';
+  }
+</script>
+</body>
+</html>
