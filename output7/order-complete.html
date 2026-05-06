@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご注文ありがとうございます — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー（シンプル） -->
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+    </nav>
+  </div>
+</header>
+
+<div class="complete-layout">
+  <div class="complete-card">
+
+    <div class="complete-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+    </div>
+
+    <h1 class="complete-title">ご注文ありがとうございます</h1>
+    <p class="complete-num">注文番号：<strong>HACCO-2025-038412</strong></p>
+    <p class="complete-text">
+      ご注文の確認メールを <strong>tanaka@example.com</strong> へ送信しました。<br>
+      商品は2〜3営業日以内に発送いたします。<br>
+      発送時には追跡番号をメールにてお知らせします。
+    </p>
+
+    <!-- 注文サマリー -->
+    <div style="background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-5);margin-bottom:var(--space-8);text-align:left;">
+      <p style="font-size:13px;font-weight:700;margin-bottom:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--color-border);">注文内容</p>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:var(--space-2);">
+        <span style="color:var(--color-text-muted);">峠のIPA × 2</span>
+        <span>¥2,200</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:var(--space-3);">
+        <span style="color:var(--color-text-muted);">夏霞ウィート × 3</span>
+        <span>¥2,250</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:var(--space-2);">
+        <span style="color:var(--color-text-muted);">送料</span>
+        <span style="color:var(--color-primary);">無料</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding-top:var(--space-3);border-top:1.5px solid var(--color-text);margin-top:var(--space-2);">
+        <span>合計</span>
+        <span>¥4,450</span>
+      </div>
+    </div>
+
+    <!-- お届け先 -->
+    <div style="background:var(--color-surface-2);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-8);text-align:left;font-size:13px;color:var(--color-text-muted);line-height:1.7;">
+      <p style="font-weight:700;color:var(--color-text);margin-bottom:4px;">お届け先</p>
+      <p>田中 隆司 様</p>
+      <p>〒101-0051 東京都千代田区神田神保町1-7-1 神保町コート 501号室</p>
+      <p style="margin-top:4px;">配送希望：2025年12月10日（水）14:00〜16:00</p>
+    </div>
+
+    <div class="complete-actions">
+      <a href="index.html" class="btn btn-primary btn-lg">
+        トップページに戻る
+      </a>
+      <a href="mypage.html" class="btn btn-ghost">
+        注文履歴を見る
+      </a>
+    </div>
+
+    <!-- シェアリンク -->
+    <p style="margin-top:var(--space-8);font-size:13px;color:var(--color-text-muted);">
+      <a href="products.html" style="color:var(--color-primary);">引き続きお買い物を楽しむ</a>
+    </p>
+
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+</body>
+</html>

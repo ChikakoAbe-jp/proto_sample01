@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACCO — 日本のクラフトビールと、出会う。</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 年齢確認モーダル -->
+<div class="age-modal-overlay" id="ageModal">
+  <div class="age-modal">
+    <p class="age-modal__logo">HACCO</p>
+    <p class="age-modal__title">HACCO はお酒を販売するサイトです</p>
+    <p class="age-modal__text">当サイトをご利用いただくには、20歳以上であることの確認が必要です。あなたは20歳以上ですか？</p>
+    <div class="age-modal__buttons">
+      <button class="btn btn-primary btn-lg" onclick="confirmAge()">はい、20歳以上です</button>
+      <button class="btn btn-ghost" onclick="denyAge()">いいえ</button>
+    </div>
+    <p class="age-modal__decline" id="ageDeclineMsg" style="display:none; color: #c0392b;">
+      未成年の方はご利用いただけません。
+    </p>
+    <p class="age-modal__note">お酒は20歳から。未成年者への酒類の販売はしておりません。飲酒運転は法律で禁止されています。</p>
+  </div>
+</div>
+
+<!-- ヘッダー -->
+<header class="header" id="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+      <ul class="nav-links">
+        <li><a href="products.html">商品一覧</a></li>
+        <li><a href="taste-quiz.html">テイスト診断</a></li>
+        <li><a href="breweries.html">ブルワリー</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="mypage.html" class="nav-icon" aria-label="お気に入り">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
+        </a>
+        <a href="cart.html" class="nav-icon cart-icon-link" aria-label="カート">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+          <span class="cart-badge">2</span>
+        </a>
+        <a href="login.html" class="nav-icon" aria-label="マイアカウント">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </a>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="メニューを開く">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="products.html">商品一覧</a></li>
+      <li><a href="taste-quiz.html">テイスト診断</a></li>
+      <li><a href="breweries.html">ブルワリー</a></li>
+      <li><a href="mypage.html">マイページ</a></li>
+      <li><a href="login.html">ログイン / 会員登録</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ヒーローセクション -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Craft Beer from Japan</p>
+      <h1 class="hero-title">日本のクラフトビールと、<br>出会う。</h1>
+      <p class="hero-subtitle">全国30のブルワリーから、あなたの一本を。<br>醸造家の情熱が込められた、特別な一杯をお届けします。</p>
+      <a href="products.html" class="btn btn-white btn-lg">
+        ビールを探す
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px;height:16px;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- おすすめ商品セクション -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">今月のおすすめ</h2>
+      <a href="products.html" class="section-more">
+        もっと見る
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </a>
+    </div>
+    <div class="product-grid-4">
+
+      <!-- 商品カード 1 -->
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=600&h=600&fit=crop&auto=format"
+            alt="峠のIPA"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">志賀高原ビール</p>
+          <p class="product-card__name">峠のIPA</p>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">IPA</span>
+            <span class="tag">苦め</span>
+          </div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥1,100<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </a>
+
+      <!-- 商品カード 2 -->
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&h=600&fit=crop&auto=format"
+            alt="夏霞ウィート"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">箕面ビール</p>
+          <p class="product-card__name">夏霞ウィート</p>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">ヴァイツェン</span>
+            <span class="tag">フルーティ</span>
+          </div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥750<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </a>
+
+      <!-- 商品カード 3 -->
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1553361371-9b0f7c1bd4e8?w=600&h=600&fit=crop&auto=format"
+            alt="水戸ノートスタウト"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">常陸野ネストビール</p>
+          <p class="product-card__name">水戸ノートスタウト</p>
+          <div class="product-card__tags">
+            <span class="tag">スタウト</span>
+            <span class="tag">濃厚</span>
+          </div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥980<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </a>
+
+      <!-- 商品カード 4 -->
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1566633806827-98302e4f1e9c?w=600&h=600&fit=crop&auto=format"
+            alt="富士の雫ヴァイツェン"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">富士桜高原麦酒</p>
+          <p class="product-card__name">富士の雫ヴァイツェン</p>
+          <div class="product-card__tags">
+            <span class="tag tag-amber">ヴァイツェン</span>
+            <span class="tag">すっきり</span>
+          </div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥820<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- テイスト診断バナー -->
+<section class="section-sm" style="background: var(--color-surface-2); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+  <div class="container">
+    <div class="quiz-banner">
+      <div class="quiz-banner__text">
+        <p class="quiz-banner__eyebrow">Taste Quiz</p>
+        <h2 class="quiz-banner__title">好みのビールがわからない方へ</h2>
+        <p class="quiz-banner__desc">5つの質問に答えるだけで、あなたにぴったりのクラフトビールをご提案します。</p>
+      </div>
+      <a href="taste-quiz.html" class="btn btn-primary btn-lg" style="flex-shrink:0;">
+        テイスト診断をはじめる
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:15px;height:15px;">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 特集セクション -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">特集</h2>
+    </div>
+    <div class="featured-grid">
+      <a href="products.html" class="featured-card" style="text-decoration:none;">
+        <div class="featured-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=450&fit=crop&auto=format"
+            alt="ギフトに人気のクラフトビール"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="featured-card__body">
+          <p class="featured-card__label">Gift</p>
+          <h3 class="featured-card__title">ギフトに人気</h3>
+          <p class="featured-card__desc">誕生日や父の日など、ビール好きな方への贈り物に。ギフトラッピング・熨斗対応。</p>
+        </div>
+      </a>
+
+      <a href="products.html" class="featured-card" style="text-decoration:none;">
+        <div class="featured-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=450&fit=crop&auto=format&crop=center&sat=-10"
+            alt="今月の新着ビール"
+            loading="lazy"
+            onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="featured-card__body">
+          <p class="featured-card__label">New Arrivals</p>
+          <h3 class="featured-card__title">今月の新着ビール</h3>
+          <p class="featured-card__desc">季節限定や新作ビールを厳選。醸造家こだわりの最新ラインナップをいち早くチェック。</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ブルワリーセクション -->
+<section class="section-sm" style="background: var(--color-surface); border-top: 1px solid var(--color-border);">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">参加ブルワリー</h2>
+      <a href="breweries.html" class="section-more">
+        すべてのブルワリーを見る
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </a>
+    </div>
+    <div class="brewery-logo-grid">
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">志賀</span>
+        <span class="brewery-logo-item__name">志賀高原ビール</span>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">箕面</span>
+        <span class="brewery-logo-item__name">箕面ビール</span>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">YHO</span>
+        <span class="brewery-logo-item__name">ヤッホー<br>ブルーイング</span>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">反射炉</span>
+        <span class="brewery-logo-item__name">反射炉ビヤ</span>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">常陸野</span>
+        <span class="brewery-logo-item__name">常陸野<br>ネストビール</span>
+      </a>
+      <a href="breweries.html" class="brewery-logo-item">
+        <span class="brewery-logo-item__abbr">富士桜</span>
+        <span class="brewery-logo-item__name">富士桜<br>高原麦酒</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-logo">HACCO</p>
+        <p class="footer-tagline">日本のクラフトビールと、出会う。</p>
+        <p class="footer-license">酒類販売業免許 関東第12345号</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#">会社概要</a>
+        <a href="#">特定商取引法に基づく表記</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">お問い合わせ</a>
+      </nav>
+    </div>
+    <p class="footer-copyright">&copy; 2025 HACCO. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  // 年齢確認
+  function confirmAge() {
+    sessionStorage.setItem('ageVerified', 'true');
+    document.getElementById('ageModal').classList.add('hidden');
+  }
+  function denyAge() {
+    document.getElementById('ageDeclineMsg').style.display = 'block';
+    document.querySelector('.age-modal__buttons').style.opacity = '0.5';
+    document.querySelector('.age-modal__buttons').style.pointerEvents = 'none';
+  }
+  // 初回アクセス時のみ表示
+  if (sessionStorage.getItem('ageVerified') === 'true') {
+    document.getElementById('ageModal').classList.add('hidden');
+  }
+
+  // モバイルメニュー
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('is-open');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購入手続き — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー（シンプル版） -->
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+      <div style="margin-left:auto;">
+        <a href="cart.html" style="font-size:13px;color:var(--color-text-muted);display:flex;align-items:center;gap:4px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+          カートに戻る
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ステッパー -->
+<div class="stepper-wrapper" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);">
+  <div class="container">
+    <div class="stepper">
+      <div class="step-item active">
+        <div class="step-num active">1</div>
+        <span class="step-label">配送先</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <span class="step-label">お届け日時</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <span class="step-label">お支払い</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <span class="step-label">確認</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="checkout-layout">
+
+    <!-- メインフォーム -->
+    <div>
+
+      <!-- STEP 1: 配送先 -->
+      <div class="checkout-section" id="step1">
+        <h2 class="checkout-section-title">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--color-primary);color:white;border-radius:50%;font-size:11px;font-weight:700;margin-right:var(--space-2);">1</span>
+          配送先のご入力
+        </h2>
+
+        <div class="form-group-row">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label form-label-required">姓</label>
+            <input type="text" class="input" placeholder="山田" value="田中">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label form-label-required">名</label>
+            <input type="text" class="input" placeholder="太郎" value="隆司">
+          </div>
+        </div>
+        <div style="margin-bottom:var(--space-5);"></div>
+
+        <div class="form-group-row">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">姓（フリガナ）</label>
+            <input type="text" class="input" placeholder="ヤマダ" value="タナカ">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">名（フリガナ）</label>
+            <input type="text" class="input" placeholder="タロウ" value="タカシ">
+          </div>
+        </div>
+        <div style="margin-bottom:var(--space-5);"></div>
+
+        <div class="form-group">
+          <label class="form-label form-label-required">郵便番号</label>
+          <div style="display:flex;gap:var(--space-3);align-items:center;">
+            <input type="text" class="input" placeholder="123-4567" value="101-0051" style="max-width:160px;">
+            <button class="btn btn-ghost btn-sm">住所検索</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label form-label-required">都道府県</label>
+          <select class="select" style="max-width:200px;">
+            <option>東京都</option>
+            <option>神奈川県</option>
+            <option>大阪府</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label form-label-required">市区町村</label>
+          <input type="text" class="input" placeholder="千代田区" value="千代田区神田神保町">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label form-label-required">番地・建物名</label>
+          <input type="text" class="input" placeholder="1-2-3 〇〇マンション101" value="1-7-1 神保町コート 501号室">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label form-label-required">電話番号</label>
+          <input type="tel" class="input" placeholder="090-1234-5678" value="090-1234-5678" style="max-width:240px;">
+        </div>
+
+        <div style="text-align:right;margin-top:var(--space-4);">
+          <button class="btn btn-primary" onclick="goStep(2)">
+            次へ：お届け日時
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: お届け日時（折りたたみ） -->
+      <div class="checkout-section" id="step2" style="opacity:0.5;">
+        <h2 class="checkout-section-title">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--color-border);color:var(--color-text-muted);border-radius:50%;font-size:11px;font-weight:700;margin-right:var(--space-2);">2</span>
+          お届け日時の指定
+        </h2>
+        <div class="form-group">
+          <label class="form-label form-label-required">配送希望日</label>
+          <input type="date" class="input" style="max-width:200px;" value="2025-12-10">
+          <p style="font-size:12px;color:var(--color-text-muted);margin-top:4px;">注文日から3日後以降をご指定ください</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">時間帯指定</label>
+          <select class="select" style="max-width:240px;">
+            <option>指定なし</option>
+            <option>午前中（〜12:00）</option>
+            <option>14:00〜16:00</option>
+            <option>16:00〜18:00</option>
+            <option>18:00〜20:00</option>
+            <option>20:00〜21:00</option>
+          </select>
+        </div>
+        <div style="text-align:right;margin-top:var(--space-4);">
+          <button class="btn btn-primary" onclick="goStep(3)">
+            次へ：お支払い方法
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: お支払い -->
+      <div class="checkout-section" id="step3" style="opacity:0.5;">
+        <h2 class="checkout-section-title">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--color-border);color:var(--color-text-muted);border-radius:50%;font-size:11px;font-weight:700;margin-right:var(--space-2);">3</span>
+          お支払い方法
+        </h2>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <label style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4);border:2px solid var(--color-primary);border-radius:var(--radius-md);cursor:pointer;background:rgba(196,133,42,0.04);">
+            <input type="radio" name="payment" checked style="margin-top:2px;accent-color:var(--color-primary);">
+            <div>
+              <p style="font-weight:700;font-size:14px;margin-bottom:4px;">クレジットカード</p>
+              <p style="font-size:12px;color:var(--color-text-muted);">VISA / Mastercard / AMEX / JCB</p>
+              <div style="margin-top:var(--space-4);display:grid;gap:var(--space-3);">
+                <div>
+                  <label class="form-label">カード番号</label>
+                  <input type="text" class="input" placeholder="1234 5678 9012 3456" value="4242 4242 4242 4242">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
+                  <div>
+                    <label class="form-label">有効期限</label>
+                    <input type="text" class="input" placeholder="MM / YY" value="12 / 28">
+                  </div>
+                  <div>
+                    <label class="form-label">セキュリティコード</label>
+                    <input type="text" class="input" placeholder="123" value="123">
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label">カード名義</label>
+                  <input type="text" class="input" placeholder="TARO YAMADA" value="TAKASHI TANAKA">
+                </div>
+              </div>
+            </div>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;">
+            <input type="radio" name="payment" style="margin-top:2px;accent-color:var(--color-primary);">
+            <div>
+              <p style="font-weight:700;font-size:14px;margin-bottom:4px;">コンビニ払い</p>
+              <p style="font-size:12px;color:var(--color-text-muted);">ローソン / ファミリーマート / セブン-イレブン</p>
+            </div>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4);border:1.5px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;">
+            <input type="radio" name="payment" style="margin-top:2px;accent-color:var(--color-primary);">
+            <div>
+              <p style="font-weight:700;font-size:14px;margin-bottom:4px;">銀行振込</p>
+              <p style="font-size:12px;color:var(--color-text-muted);">入金確認後に発送します（3〜5営業日）</p>
+            </div>
+          </label>
+        </div>
+        <div style="text-align:right;margin-top:var(--space-5);">
+          <button class="btn btn-primary" onclick="goStep(4)">
+            次へ：注文内容確認
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: 確認 -->
+      <div class="checkout-section" id="step4" style="opacity:0.5;">
+        <h2 class="checkout-section-title">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--color-border);color:var(--color-text-muted);border-radius:50%;font-size:11px;font-weight:700;margin-right:var(--space-2);">4</span>
+          注文内容の確認
+        </h2>
+        <div style="background:var(--color-surface-2);border-radius:var(--radius-md);padding:var(--space-5);margin-bottom:var(--space-5);font-size:14px;line-height:1.7;">
+          <p><strong>お届け先</strong>：〒101-0051 東京都千代田区神田神保町1-7-1 神保町コート 501号室</p>
+          <p><strong>お届け日時</strong>：2025年12月10日（水）14:00〜16:00</p>
+          <p><strong>お支払い</strong>：クレジットカード（VISA ****3456）</p>
+        </div>
+        <p style="font-size:12px;color:var(--color-text-muted);margin-bottom:var(--space-5);line-height:1.7;">
+          「注文を確定する」を押すと注文が確定します。注文確定後のキャンセルは原則承れません。<br>
+          ご注文内容に同意の上、ご注文ください。
+        </p>
+        <a href="order-complete.html" class="btn btn-primary btn-full btn-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:18px;height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+          注文を確定する
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 注文サマリー（サイドバー） -->
+    <div>
+      <div class="order-summary">
+        <p class="order-summary__title">ご注文の概要</p>
+
+        <!-- ミニカートアイテム -->
+        <div style="margin-bottom:var(--space-4);">
+          <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-3);align-items:center;">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);overflow:hidden;flex-shrink:0;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=96&h=96&fit=crop&auto=format" alt="峠のIPA" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">峠のIPA × 2</p>
+              <p style="font-size:12px;color:var(--color-text-muted);">志賀高原ビール</p>
+            </div>
+            <p style="font-size:13px;font-weight:700;flex-shrink:0;">¥2,200</p>
+          </div>
+          <div style="display:flex;gap:var(--space-3);align-items:center;">
+            <div style="width:48px;height:48px;border-radius:var(--radius-md);overflow:hidden;flex-shrink:0;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=96&h=96&fit=crop&auto=format" alt="夏霞ウィート" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">夏霞ウィート × 3</p>
+              <p style="font-size:12px;color:var(--color-text-muted);">箕面ビール</p>
+            </div>
+            <p style="font-size:13px;font-weight:700;flex-shrink:0;">¥2,250</p>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--color-border);margin-block:var(--space-4);">
+
+        <div class="order-summary__row">
+          <span>小計</span>
+          <span class="value">¥4,450</span>
+        </div>
+        <div class="order-summary__row">
+          <span>送料</span>
+          <span class="order-summary__free">無料</span>
+        </div>
+        <hr class="order-summary__divider">
+        <div class="order-summary__total">
+          <span>合計</span>
+          <span>¥4,450</span>
+        </div>
+        <p class="order-summary__tax">税込・送料込</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  const steps = ['step1','step2','step3','step4'];
+  const stepNums = document.querySelectorAll('.step-num');
+  const stepConnectors = document.querySelectorAll('.step-connector');
+  const stepItems = document.querySelectorAll('.step-item');
+
+  function goStep(num) {
+    steps.forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.style.opacity = i < num ? '1' : (i === num - 1 ? '1' : '0.5');
+    });
+    stepNums.forEach((el, i) => {
+      if (i < num - 1) { el.classList.add('done'); el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>'; }
+      else if (i === num - 1) { el.classList.remove('done'); el.classList.add('active'); el.textContent = i + 1; }
+      else { el.classList.remove('done','active'); el.textContent = i + 1; }
+    });
+    stepItems.forEach((el, i) => {
+      el.classList.toggle('active', i === num - 1);
+    });
+    stepConnectors.forEach((el, i) => {
+      el.classList.toggle('done', i < num - 1);
+    });
+  }
+</script>
+</body>
+</html>

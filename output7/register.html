@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会員登録 — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+      <ul class="nav-links">
+        <li><a href="products.html">商品一覧</a></li>
+        <li><a href="taste-quiz.html">テイスト診断</a></li>
+        <li><a href="breweries.html">ブルワリー</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="メニュー">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="products.html">商品一覧</a></li>
+      <li><a href="taste-quiz.html">テイスト診断</a></li>
+      <li><a href="breweries.html">ブルワリー</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="auth-layout" style="padding-top:var(--space-8);padding-bottom:var(--space-12);">
+  <div class="auth-card" style="max-width:480px;">
+
+    <a href="index.html" class="auth-logo">HACCO</a>
+    <h1 class="auth-title">会員登録</h1>
+    <p class="auth-subtitle">無料会員登録で、お気に入り保存・注文履歴確認ができます</p>
+
+    <form onsubmit="handleRegister(event)">
+
+      <div class="form-group-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label form-label-required" for="lastName">姓</label>
+          <input type="text" id="lastName" class="input" placeholder="田中" autocomplete="family-name" required>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label form-label-required" for="firstName">名</label>
+          <input type="text" id="firstName" class="input" placeholder="隆司" autocomplete="given-name" required>
+        </div>
+      </div>
+      <div style="margin-bottom:var(--space-5);"></div>
+
+      <div class="form-group">
+        <label class="form-label form-label-required" for="regEmail">メールアドレス</label>
+        <input type="email" id="regEmail" class="input" placeholder="example@email.com" autocomplete="email" required>
+        <p style="font-size:12px;color:var(--color-text-muted);margin-top:4px;">登録確認メールをお送りします</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label form-label-required" for="regPassword">パスワード</label>
+        <div style="position:relative;">
+          <input
+            type="password"
+            id="regPassword"
+            class="input"
+            placeholder="8文字以上で入力"
+            autocomplete="new-password"
+            required
+            minlength="8">
+          <button type="button" onclick="togglePassword('regPassword')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--color-text-muted);width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:18px;height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
+          </button>
+        </div>
+        <p style="font-size:12px;color:var(--color-text-muted);margin-top:4px;">英数字8文字以上</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label form-label-required" for="regPasswordConfirm">パスワード（確認）</label>
+        <input
+          type="password"
+          id="regPasswordConfirm"
+          class="input"
+          placeholder="パスワードをもう一度入力"
+          autocomplete="new-password"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label form-label-required">生年月日</label>
+        <p style="font-size:12px;color:var(--color-text-muted);margin-bottom:var(--space-2);">年齢確認のため、生年月日の登録が必要です</p>
+        <div style="display:flex;gap:var(--space-3);">
+          <select class="select" style="flex:2;max-width:120px;">
+            <option value="">年</option>
+            <option>1990</option>
+            <option>1991</option>
+            <option>1992</option>
+            <option>1993</option>
+            <option selected>1994</option>
+            <option>1995</option>
+          </select>
+          <select class="select" style="flex:1;max-width:90px;">
+            <option value="">月</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option selected>4</option>
+            <option>5</option>
+            <option>6</option>
+          </select>
+          <select class="select" style="flex:1;max-width:90px;">
+            <option value="">日</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option selected>15</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" required>
+          <span>
+            <a href="#" style="color:var(--color-primary);">利用規約</a>および
+            <a href="#" style="color:var(--color-primary);">プライバシーポリシー</a>に同意します
+          </span>
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-bottom:var(--space-6);">
+        <label class="checkbox-label">
+          <input type="checkbox" checked>
+          <span style="color:var(--color-text-muted);font-size:13px;">メールマガジン（新商品・セール情報）を受け取る</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg">
+        登録する
+      </button>
+
+      <p style="font-size:12px;color:var(--color-text-muted);text-align:center;margin-top:var(--space-4);line-height:1.7;">
+        登録後、確認メールをお送りします。メール内のリンクをクリックして登録を完了してください。
+      </p>
+    </form>
+
+    <div class="auth-footer">
+      <p>すでに会員の方は<a href="login.html">こちらからログイン</a></p>
+    </div>
+
+  </div>
+</div>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('is-open');
+  }
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+  function handleRegister(e) {
+    e.preventDefault();
+    window.location.href = 'mypage.html';
+  }
+</script>
+</body>
+</html>

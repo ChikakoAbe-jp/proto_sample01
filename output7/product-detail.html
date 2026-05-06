@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>峠のIPA — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+      <ul class="nav-links">
+        <li><a href="products.html">商品一覧</a></li>
+        <li><a href="taste-quiz.html">テイスト診断</a></li>
+        <li><a href="breweries.html">ブルワリー</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="mypage.html" class="nav-icon" aria-label="お気に入り">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+        </a>
+        <a href="cart.html" class="nav-icon cart-icon-link" aria-label="カート">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+          <span class="cart-badge">2</span>
+        </a>
+        <a href="login.html" class="nav-icon" aria-label="マイアカウント">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+        </a>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="メニュー">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="products.html">商品一覧</a></li>
+      <li><a href="taste-quiz.html">テイスト診断</a></li>
+      <li><a href="breweries.html">ブルワリー</a></li>
+      <li><a href="mypage.html">マイページ</a></li>
+      <li><a href="login.html">ログイン / 会員登録</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- パンくず -->
+  <div class="breadcrumb">
+    <a href="index.html">トップ</a>
+    <span class="breadcrumb-sep">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:12px;height:12px;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+    </span>
+    <a href="products.html">商品一覧</a>
+    <span class="breadcrumb-sep">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:12px;height:12px;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+    </span>
+    <span>峠のIPA</span>
+  </div>
+
+  <!-- 商品詳細レイアウト -->
+  <div class="product-detail-layout">
+
+    <!-- 商品画像 -->
+    <div>
+      <div class="product-main-image" id="mainImage">
+        <img
+          src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=800&h=800&fit=crop&auto=format"
+          alt="峠のIPA"
+          id="mainImg"
+          onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+      </div>
+      <div class="product-thumb-list">
+        <div class="product-thumb active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=800&h=800&fit=crop&auto=format')">
+          <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=120&h=120&fit=crop&auto=format" alt="峠のIPA 正面">
+        </div>
+        <div class="product-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&h=800&fit=crop&auto=format')">
+          <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=120&h=120&fit=crop&auto=format" alt="峠のIPA 側面">
+        </div>
+        <div class="product-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=800&fit=crop&auto=format')">
+          <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=120&h=120&fit=crop&auto=format" alt="グラスに注いだ様子">
+        </div>
+        <div class="product-thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1566633806827-98302e4f1e9c?w=800&h=800&fit=crop&auto=format')">
+          <img src="https://images.unsplash.com/photo-1566633806827-98302e4f1e9c?w=120&h=120&fit=crop&auto=format" alt="醸造所の様子">
+        </div>
+      </div>
+    </div>
+
+    <!-- 購入パネル -->
+    <div>
+      <p class="purchase-panel__brewery">志賀高原ビール — 長野県山ノ内町</p>
+      <h1 class="purchase-panel__name">峠のIPA</h1>
+
+      <div class="purchase-panel__meta">
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" /></svg>
+          IPA
+        </span>
+        <span>330ml</span>
+        <span>アルコール 7%</span>
+      </div>
+
+      <div class="purchase-panel__tags">
+        <span class="tag tag-amber">IPA</span>
+        <span class="tag">苦め</span>
+        <span class="tag">ホップ感強め</span>
+        <span class="tag">フルーティ</span>
+      </div>
+
+      <div class="purchase-panel__price">
+        ¥1,100
+        <small>税込</small>
+      </div>
+
+      <div class="purchase-panel__quantity">
+        <span class="purchase-panel__quantity-label">数量</span>
+        <div class="quantity-control">
+          <button onclick="changeQty(-1)" aria-label="減らす">−</button>
+          <span id="qty">1</span>
+          <button onclick="changeQty(1)" aria-label="増やす">+</button>
+        </div>
+      </div>
+
+      <div class="purchase-panel__actions">
+        <a href="cart.html" class="btn btn-primary btn-lg purchase-panel__add-cart">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:18px;height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+          カートに追加
+        </a>
+        <button class="purchase-panel__favorite-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+          お気に入りに追加
+        </button>
+      </div>
+
+      <!-- 配送情報 -->
+      <div style="margin-top: var(--space-5); padding: var(--space-4); background: var(--color-surface-2); border-radius: var(--radius-md); font-size: 13px; color: var(--color-text-muted);">
+        <p style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:4px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
+          5,000円以上で送料無料
+        </p>
+        <p style="display:flex;align-items:center;gap:var(--space-2);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+          最短3日でお届け
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 詳細情報タブ -->
+  <div class="detail-section">
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab(this, 'tab-taste')">テイストノート</button>
+      <button class="tab-btn" onclick="switchTab(this, 'tab-meter')">テイストメーター</button>
+      <button class="tab-btn" onclick="switchTab(this, 'tab-ingredient')">原材料・情報</button>
+      <button class="tab-btn" onclick="switchTab(this, 'tab-pairing')">ペアリング</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-taste">
+      <p style="font-size:15px;line-height:1.85;color:var(--color-text);max-width:720px;">
+        志賀高原ビールの代名詞的な一本。信州・長野の澄んだ高山水と国産ホップを組み合わせた、芳醇なIPA。
+        柑橘系の爽やかなアロマが立ち上り、一口目から力強いホップの苦みが広がります。
+        後味はすっきりとした余韻で、どこか山の清涼感を思わせる一杯です。
+        クラフトビール入門者から上級者まで、幅広く楽しめるバランスの取れたIPAです。
+      </p>
+    </div>
+
+    <div class="tab-panel" id="tab-meter">
+      <div class="taste-meter" style="max-width:400px;">
+        <div class="taste-meter-row">
+          <span class="taste-meter-label">苦み</span>
+          <div class="taste-meter-track">
+            <div class="taste-meter-fill" style="width:82%;"></div>
+          </div>
+          <span class="taste-meter-value">82</span>
+        </div>
+        <div class="taste-meter-row">
+          <span class="taste-meter-label">甘み</span>
+          <div class="taste-meter-track">
+            <div class="taste-meter-fill" style="width:28%;"></div>
+          </div>
+          <span class="taste-meter-value">28</span>
+        </div>
+        <div class="taste-meter-row">
+          <span class="taste-meter-label">コク</span>
+          <div class="taste-meter-track">
+            <div class="taste-meter-fill" style="width:65%;"></div>
+          </div>
+          <span class="taste-meter-value">65</span>
+        </div>
+        <div class="taste-meter-row">
+          <span class="taste-meter-label">酸味</span>
+          <div class="taste-meter-track">
+            <div class="taste-meter-fill" style="width:20%;"></div>
+          </div>
+          <span class="taste-meter-value">20</span>
+        </div>
+        <div class="taste-meter-row">
+          <span class="taste-meter-label">香り</span>
+          <div class="taste-meter-track">
+            <div class="taste-meter-fill" style="width:78%;"></div>
+          </div>
+          <span class="taste-meter-value">78</span>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--color-text-muted);margin-top:var(--space-3);">※ 数値はブルワリー公表値を基にしたイメージです。</p>
+    </div>
+
+    <div class="tab-panel" id="tab-ingredient">
+      <table class="ingredient-table">
+        <tr>
+          <th>原材料</th>
+          <td>麦芽（外国製造）、ホップ（信州産含む）</td>
+        </tr>
+        <tr>
+          <th>内容量</th>
+          <td>330ml</td>
+        </tr>
+        <tr>
+          <th>アルコール</th>
+          <td>7%</td>
+        </tr>
+        <tr>
+          <th>カロリー</th>
+          <td>約63kcal / 100ml</td>
+        </tr>
+        <tr>
+          <th>賞味期限</th>
+          <td>製造から12ヶ月</td>
+        </tr>
+        <tr>
+          <th>保存方法</th>
+          <td>直射日光・高温多湿を避け、冷暗所で保存。開栓後はお早めにお飲みください。</td>
+        </tr>
+        <tr>
+          <th>製造者</th>
+          <td>玉村本店（長野県下高井郡山ノ内町大字平穏）</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="tab-pairing">
+      <p style="font-size:14px;color:var(--color-text-muted);margin-bottom:var(--space-4);">IPA の力強い苦みと香りに合う料理の組み合わせです。</p>
+      <div class="pairing-list">
+        <div class="pairing-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.254 1.614 2.318a48.394 48.394 0 0 1-.317 2.026c.247-.074.494-.15.738-.228" /></svg>
+          スパイシーな唐揚げ
+        </div>
+        <div class="pairing-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.254 1.614 2.318a48.394 48.394 0 0 1-.317 2.026c.247-.074.494-.15.738-.228" /></svg>
+          グリルチキン
+        </div>
+        <div class="pairing-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.254 1.614 2.318a48.394 48.394 0 0 1-.317 2.026c.247-.074.494-.15.738-.228" /></svg>
+          ピザ・ナン料理
+        </div>
+        <div class="pairing-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.254 1.614 2.318a48.394 48.394 0 0 1-.317 2.026c.247-.074.494-.15.738-.228" /></svg>
+          ハードチーズ
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ブルワリー紹介 -->
+  <div style="margin-top: var(--space-12); margin-bottom: var(--space-8);">
+    <h3 style="font-size:17px;font-weight:700;margin-bottom:var(--space-4);">醸造所について</h3>
+    <div class="brewery-info-block">
+      <div class="brewery-info-block__logo">志賀<br>高原</div>
+      <div>
+        <p class="brewery-info-block__name">志賀高原ビール</p>
+        <p class="brewery-info-block__location">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:12px;height:12px;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+          長野県下高井郡山ノ内町
+        </p>
+        <p class="brewery-info-block__desc">1805年創業の老舗酒蔵・玉村本店が手がけるクラフトビール。志賀高原の豊かな自然と清冽な水を活かした、ここでしか飲めないビールを造り続けています。</p>
+        <a href="breweries.html" style="display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--color-primary);margin-top:var(--space-3);">
+          このブルワリーのビールを見る
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 関連商品 -->
+  <div style="margin-bottom: var(--space-16);">
+    <h3 style="font-size:20px;font-weight:700;margin-bottom:var(--space-6);">同じブルワリーの商品</h3>
+    <div class="product-grid-4">
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&h=600&fit=crop&auto=format" alt="高原ホワイトエール" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">志賀高原ビール</p>
+          <p class="product-card__name">高原ホワイトエール</p>
+          <div class="product-card__tags"><span class="tag">ヴァイツェン</span></div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥950<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg></button>
+          </div>
+        </div>
+      </a>
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&h=600&fit=crop&auto=format" alt="乙女ラガー" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">志賀高原ビール</p>
+          <p class="product-card__name">乙女のラガー</p>
+          <div class="product-card__tags"><span class="tag tag-amber">ラガー</span></div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥820<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg></button>
+          </div>
+        </div>
+      </a>
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=600&h=600&fit=crop&auto=format&crop=bottom" alt="山のスタウト" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">志賀高原ビール</p>
+          <p class="product-card__name">山のポーター</p>
+          <div class="product-card__tags"><span class="tag">スタウト</span></div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥1,050<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg></button>
+          </div>
+        </div>
+      </a>
+      <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+        <div class="product-card__image">
+          <img src="https://images.unsplash.com/photo-1566633806827-98302e4f1e9c?w=600&h=600&fit=crop&auto=format&crop=top" alt="秋色エール" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+        </div>
+        <div class="product-card__body">
+          <p class="product-card__brewery">志賀高原ビール</p>
+          <p class="product-card__name">秋色エール 2025</p>
+          <div class="product-card__tags"><span class="tag">季節限定</span></div>
+          <div class="product-card__footer">
+            <span class="product-card__price">¥1,200<small>税込</small></span>
+            <button class="product-card__favorite" aria-label="お気に入り"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg></button>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- フッター -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-logo">HACCO</p>
+        <p class="footer-tagline">日本のクラフトビールと、出会う。</p>
+        <p class="footer-license">酒類販売業免許 関東第12345号</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#">会社概要</a>
+        <a href="#">特定商取引法に基づく表記</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">お問い合わせ</a>
+      </nav>
+    </div>
+    <p class="footer-copyright">&copy; 2025 HACCO. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('is-open');
+  }
+
+  function changeQty(delta) {
+    const el = document.getElementById('qty');
+    const val = Math.max(1, parseInt(el.textContent) + delta);
+    el.textContent = val;
+  }
+
+  function changeImage(thumb, url) {
+    document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+    document.getElementById('mainImg').src = url;
+  }
+
+  function switchTab(btn, panelId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+</script>
+</body>
+</html>

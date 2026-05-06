@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ — HACCO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">HACCO</a>
+      <ul class="nav-links">
+        <li><a href="products.html">商品一覧</a></li>
+        <li><a href="taste-quiz.html">テイスト診断</a></li>
+        <li><a href="breweries.html">ブルワリー</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="mypage.html" class="nav-icon" aria-label="お気に入り">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+        </a>
+        <a href="cart.html" class="nav-icon" aria-label="カート">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+          <span class="cart-badge">2</span>
+        </a>
+        <a href="login.html" class="nav-icon" aria-label="マイアカウント" style="color:var(--color-primary);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+        </a>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="メニュー">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="products.html">商品一覧</a></li>
+      <li><a href="taste-quiz.html">テイスト診断</a></li>
+      <li><a href="breweries.html">ブルワリー</a></li>
+      <li><a href="login.html">ログアウト</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ページヘッダー -->
+  <div style="padding-top:var(--space-8);padding-bottom:var(--space-4);">
+    <p style="font-size:13px;color:var(--color-text-muted);margin-bottom:4px;">ようこそ</p>
+    <h1 style="font-size:22px;font-weight:700;">田中 隆司 さん</h1>
+  </div>
+
+  <div class="mypage-layout">
+
+    <!-- サイドナビ -->
+    <nav>
+      <button class="mypage-nav-item active" onclick="switchSection(this, 'orders')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" /></svg>
+        注文履歴
+      </button>
+      <button class="mypage-nav-item" onclick="switchSection(this, 'favorites')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+        お気に入り
+      </button>
+      <button class="mypage-nav-item" onclick="switchSection(this, 'profile')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+        登録情報の編集
+      </button>
+      <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid var(--color-border);">
+        <a href="login.html" class="mypage-nav-item" style="color:var(--color-text-muted);">ログアウト</a>
+      </div>
+    </nav>
+
+    <!-- コンテンツエリア -->
+    <div>
+
+      <!-- 注文履歴 -->
+      <div class="mypage-section active" id="section-orders">
+        <h2 class="mypage-section-title">注文履歴</h2>
+
+        <!-- 注文カード 1 -->
+        <div class="order-card">
+          <div class="order-card__header">
+            <div class="order-card__meta">
+              <span class="order-card__num">注文番号 HACCO-2025-038412</span>
+              <span class="order-card__date">2025年11月28日</span>
+            </div>
+            <span class="status-badge status-shipped">発送済み</span>
+          </div>
+          <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-3);">
+            <div style="width:56px;height:56px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=112&h=112&fit=crop&auto=format" alt="峠のIPA" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div style="width:56px;height:56px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=112&h=112&fit=crop&auto=format" alt="夏霞ウィート" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+          </div>
+          <div class="order-card__body">
+            <div>
+              <p class="order-card__total">¥4,450</p>
+              <p class="order-card__count">2商品 (計5点)</p>
+            </div>
+            <a href="#" class="order-card__link">
+              詳細を見る
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:13px;height:13px;display:inline-block;vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 注文カード 2 -->
+        <div class="order-card">
+          <div class="order-card__header">
+            <div class="order-card__meta">
+              <span class="order-card__num">注文番号 HACCO-2025-031077</span>
+              <span class="order-card__date">2025年10月14日</span>
+            </div>
+            <span class="status-badge status-delivered">お届け済み</span>
+          </div>
+          <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-3);">
+            <div style="width:56px;height:56px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1553361371-9b0f7c1bd4e8?w=112&h=112&fit=crop&auto=format" alt="水戸ノートスタウト" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div style="width:56px;height:56px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1566633806827-98302e4f1e9c?w=112&h=112&fit=crop&auto=format" alt="富士の雫" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+          </div>
+          <div class="order-card__body">
+            <div>
+              <p class="order-card__total">¥6,500</p>
+              <p class="order-card__count">3商品 (計8点)</p>
+            </div>
+            <a href="#" class="order-card__link">
+              詳細を見る
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:13px;height:13px;display:inline-block;vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 注文カード 3 -->
+        <div class="order-card">
+          <div class="order-card__header">
+            <div class="order-card__meta">
+              <span class="order-card__num">注文番号 HACCO-2025-018834</span>
+              <span class="order-card__date">2025年8月3日</span>
+            </div>
+            <span class="status-badge status-delivered">お届け済み</span>
+          </div>
+          <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-3);">
+            <div style="width:56px;height:56px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface-2);">
+              <img src="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=112&h=112&fit=crop&auto=format" alt="商品" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+          </div>
+          <div class="order-card__body">
+            <div>
+              <p class="order-card__total">¥3,200</p>
+              <p class="order-card__count">1商品 (計4点)</p>
+            </div>
+            <a href="#" class="order-card__link">
+              詳細を見る
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:13px;height:13px;display:inline-block;vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- お気に入り -->
+      <div class="mypage-section" id="section-favorites">
+        <h2 class="mypage-section-title">お気に入り</h2>
+        <div class="product-grid">
+          <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+            <div class="product-card__image">
+              <img src="https://images.unsplash.com/photo-1574539602338-3e0ccad9cdef?w=600&h=600&fit=crop&auto=format" alt="峠のIPA" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__brewery">志賀高原ビール</p>
+              <p class="product-card__name">峠のIPA</p>
+              <div class="product-card__tags"><span class="tag tag-amber">IPA</span><span class="tag">苦め</span></div>
+              <div class="product-card__footer">
+                <span class="product-card__price">¥1,100<small>税込</small></span>
+                <button class="product-card__favorite" aria-label="お気に入りから削除" style="color:var(--color-primary);">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" /></svg>
+                </button>
+              </div>
+            </div>
+          </a>
+          <a href="product-detail.html" class="product-card" style="text-decoration:none;">
+            <div class="product-card__image">
+              <img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&h=600&fit=crop&auto=format" alt="夏霞ウィート" loading="lazy" onerror="this.style.background='#F2EDE5';this.removeAttribute('src')">
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__brewery">箕面ビール</p>
+              <p class="product-card__name">夏霞ウィート</p>
+              <div class="product-card__tags"><span class="tag tag-amber">ヴァイツェン</span></div>
+              <div class="product-card__footer">
+                <span class="product-card__price">¥750<small>税込</small></span>
+                <button class="product-card__favorite" aria-label="お気に入りから削除" style="color:var(--color-primary);">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" /></svg>
+                </button>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 登録情報の編集 -->
+      <div class="mypage-section" id="section-profile">
+        <h2 class="mypage-section-title">登録情報の編集</h2>
+        <div class="checkout-section" style="max-width:560px;">
+          <div class="form-group-row">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">姓</label>
+              <input type="text" class="input" value="田中">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">名</label>
+              <input type="text" class="input" value="隆司">
+            </div>
+          </div>
+          <div style="margin-bottom:var(--space-5);"></div>
+
+          <div class="form-group">
+            <label class="form-label">メールアドレス</label>
+            <input type="email" class="input" value="tanaka@example.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">電話番号</label>
+            <input type="tel" class="input" value="090-1234-5678">
+          </div>
+
+          <hr class="divider">
+          <p style="font-size:14px;font-weight:700;margin-bottom:var(--space-4);">パスワード変更</p>
+
+          <div class="form-group">
+            <label class="form-label">現在のパスワード</label>
+            <input type="password" class="input" placeholder="現在のパスワード">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード</label>
+            <input type="password" class="input" placeholder="新しいパスワード（8文字以上）">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード（確認）</label>
+            <input type="password" class="input" placeholder="新しいパスワードをもう一度">
+          </div>
+
+          <div style="margin-top:var(--space-4);">
+            <button class="btn btn-primary">変更を保存する</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- フッター -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-logo">HACCO</p>
+        <p class="footer-tagline">日本のクラフトビールと、出会う。</p>
+        <p class="footer-license">酒類販売業免許 関東第12345号</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#">会社概要</a>
+        <a href="#">特定商取引法に基づく表記</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">お問い合わせ</a>
+      </nav>
+    </div>
+    <p class="footer-copyright">&copy; 2025 HACCO. All rights reserved.</p>
+  </div>
+</footer>
+
+<div class="prototype-badge">Prototype</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('is-open');
+  }
+
+  function switchSection(btn, sectionId) {
+    document.querySelectorAll('.mypage-nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.mypage-section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('section-' + sectionId).classList.add('active');
+  }
+</script>
+</body>
+</html>
